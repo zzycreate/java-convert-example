@@ -15,6 +15,13 @@ import java.io.UnsupportedEncodingException;
  * 或者使用 jdk1.7 的 Try-With-Resources 写法, 见
  * {@link String2FileWithPrintWriterExample#useInTryWithResources()}
  *
+ * 缺点：
+ * 1. 如果文件已经存在，PrintWriter会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符
+ * 大小和缓冲大小
+ * 2. 使用 PrintWriter 不需要输入文件 path，所以创建文件的路径需要看执行程序时的工作目录
+ * 3. PriteWriter 会导致吞异常，见
+ * <a href="https://stackoverflow.com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092">stackoverflow.com/a/1747092/4678667</a>
+ *
  * @author zzycreate
  * @date 19-5-3
  * @see <a href="http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java">
