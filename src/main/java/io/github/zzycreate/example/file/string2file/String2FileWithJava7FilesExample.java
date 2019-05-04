@@ -2,6 +2,7 @@ package io.github.zzycreate.example.file.string2file;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +34,7 @@ public class String2FileWithJava7FilesExample {
         List<String> lines = Arrays.asList(LINE1, LINE2);
         Path path = Paths.get(FILE_NAME);
         try {
-            Files.write(path, lines, Charset.forName("UTF-8"));
+            Files.write(path, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
