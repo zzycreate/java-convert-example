@@ -50,6 +50,24 @@ BufferedWriter 可以设置缓存区大小; OutputStreamWriter 可以指定字�
     }
 ```
 
+#### 使用 jdk7 的 Files
+
+由于 nio 是 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
+
+1. 如果写入的是字符数据，则需要设置字符编码 {@link java.nio.charset.StandardCharsets} {@link Charset}
+2. 如果写入的是字节数据（byte[]），不需要设置字符编码
+3. 如果想在已存在的文件后追加内容，可以增加 {@link java.nio.file.StandardOpenOption#APPEND} 参数
+
+```
+    List<String> lines = Arrays.asList("The second line", "The second line");
+    Path path = Paths.get("filename.txt");
+    try {
+        Files.write(path, lines, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 ## 二. 日期时间
 
 ## 三. steam流
