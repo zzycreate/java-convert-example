@@ -4,6 +4,23 @@
 
 ## 1. 文件
 
+### 1.1 String -> File
+
+#### 使用 PrintWrite/FileWriter
+
+1. 如果文件已经存在，PrintWriter 会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符大小和缓冲大小。
+2. 使用 PrintWriter 不需要输入文件 path，所以创建文件的路径需要看执行程序时的工作目录
+3. PriteWriter 会导致吞异常，见 [stackoverflow.com/a/1747092/4678667](https://stackoverflow.com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092) 
+
+```java_holder_method_tree
+    try (PrintWriter writer = new PrintWriter("filename.txt", "UTF-8")) {
+        writer.println("The first line");
+        writer.println("The second line");
+    } catch (FileNotFoundException | UnsupportedEncodingException e) {
+        e.printStackTrace();
+    }
+``` 
+
 ## 2. 日期时间
 
 ## 3. steam流

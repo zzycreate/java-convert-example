@@ -1,6 +1,9 @@
 package io.github.zzycreate.example.file.string2file;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -14,7 +17,7 @@ import java.io.UnsupportedEncodingException;
  * {@link String2FileWithPrintWriterExample#useInTryCatchFinally()},
  * 或者使用 jdk1.7 的 Try-With-Resources 写法, 见
  * {@link String2FileWithPrintWriterExample#useInTryWithResources()}
- *
+ * <p>
  * 缺点：
  * 1. 如果文件已经存在，PrintWriter会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符
  * 大小和缓冲大小
@@ -31,6 +34,7 @@ public class String2FileWithPrintWriterExample {
 
     public static final String FILE_NAME1 = "useInTryCatchFinally.txt";
     public static final String FILE_NAME2 = "useInTryWithResources.txt";
+    public static final String FILE_NAME3 = "useFileWriter.txt";
     public static final String LINE1 = "The first line";
     public static final String LINE2 = "The second line";
     public static final String SEPARATOR = System.getProperty("line.separator");
@@ -60,6 +64,17 @@ public class String2FileWithPrintWriterExample {
             writer.println(LINE1);
             writer.println(LINE2);
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void useFileWriter() {
+
+        try (FileWriter writer = new FileWriter(new File(FILE_NAME3), true)) {
+            writer.append(LINE1).append(SEPARATOR)
+                    .append(LINE2).append(SEPARATOR);
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
