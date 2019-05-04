@@ -6,11 +6,12 @@
 
 ### 1.1 String -> File
 
-#### 使用 PrintWrite/FileWriter
+- #### 使用 PrintWrite
 
-1. 如果文件已经存在，PrintWriter 会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符大小和缓冲大小。
-2. 使用 PrintWriter 不需要输入文件 path，所以创建文件的路径需要看执行程序时的工作目录
-3. PriteWriter 会导致吞异常，见 [stackoverflow.com/a/1747092/4678667](https://stackoverflow.com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092) 
+    - 如果文件已经存在，PrintWriter 会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符大小和缓冲大小。
+    - 使用 PrintWriter 不需要输入文件 path，所以创建文件的路径需要看执行程序时的工作目录。
+    - PriteWriter 会导致吞异常，见 [stackoverflow.com/a/1747092/4678667](https://stackoverflow
+    .com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092) 。
 
 ```java_holder_method_tree
     try (PrintWriter writer = new PrintWriter("filename.txt", "UTF-8")) {
@@ -20,6 +21,19 @@
         e.printStackTrace();
     }
 ``` 
+
+- #### 使用 FileWriter
+
+    FileWriter 在创建的时候可以指定追加/覆盖模式，避免 PrintWriter 截断已存在的文件。
+
+```java_holder_method_tree
+    try (FileWriter writer = new FileWriter(new File("filename.txt"), true)) {
+        writer.append(LINE1).append(SEPARATOR)
+                .append(LINE2).append(SEPARATOR);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
 
 ## 2. 日期时间
 
