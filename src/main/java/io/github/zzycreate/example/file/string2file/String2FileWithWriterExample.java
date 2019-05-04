@@ -13,19 +13,18 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 向文件中写入内容
- * File to String
- * <p>
+ * 使用 Writer 向文件中写入内容
+ * File to String using Writer
  *
  * @author zzycreate
  * @date 19-5-3
  * @see <a href="http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java">
  * http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java</a>
  */
-public class String2FileWithPrintWriterExample {
+public class String2FileWithWriterExample {
 
-    public static final String FILE_NAME1 = "useInTryCatchFinally.txt";
-    public static final String FILE_NAME2 = "useInTryWithResources.txt";
+    public static final String FILE_NAME1 = "usePrintWriterInTryCatchFinally.txt";
+    public static final String FILE_NAME2 = "usePrintWriterInTryWithResources.txt";
     public static final String FILE_NAME3 = "useFileWriter.txt";
     public static final String FILE_NAME4 = "useBufferdWriter.txt";
     public static final String LINE1 = "The first line";
@@ -35,7 +34,7 @@ public class String2FileWithPrintWriterExample {
     /**
      * jdk1.7以前使用 try-catch-finally，jdk1.7以后可以使用 try-with-resources
      */
-    public static void useInTryCatchFinally() {
+    public static void usePrintWriterInTryCatchFinally() {
 
         // Try-Catch-Finally
         PrintWriter writer = null;
@@ -57,9 +56,9 @@ public class String2FileWithPrintWriterExample {
      * 使用 PrintWriter 向文件中写内容
      * <p>
      * PrintWriter 是 jdk1.1 的 Writer 类, 需要手动关闭（Try-Catch-Finally）, 见
-     * {@link String2FileWithPrintWriterExample#useInTryCatchFinally()},
+     * {@link String2FileWithWriterExample#usePrintWriterInTryCatchFinally()},
      * 或者使用 jdk1.7 的 Try-With-Resources 写法, 见
-     * {@link String2FileWithPrintWriterExample#useInTryWithResources()}
+     * {@link String2FileWithWriterExample#usePrintWriterInTryWithResources()}
      * <p>
      * 缺点：
      * 1. 如果文件已经存在，PrintWriter会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符
@@ -68,7 +67,7 @@ public class String2FileWithPrintWriterExample {
      * 3. PriteWriter 会导致吞异常，见
      * <a href="https://stackoverflow.com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092">stackoverflow.com/a/1747092/4678667</a>
      */
-    public static void useInTryWithResources() {
+    public static void usePrintWriterInTryWithResources() {
 
         // Try-With-Resources
         try (PrintWriter writer = new PrintWriter(FILE_NAME2, "UTF-8")) {
