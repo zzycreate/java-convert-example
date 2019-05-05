@@ -4,13 +4,11 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 
 /**
  * 向文件中写入内容
@@ -23,20 +21,16 @@ import java.util.List;
  *
  * @author zzycreate
  * @date 19-5-4
- * @see <a href="http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java">
- * http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java</a>
+ * @see <a href="https://stackoverflow.com/questions/2885173">stackoverflow.com/a/2885173</a>
  */
 public class String2FileWithCommonsExample {
 
-    public static final String FILE_NAME = "useByCommons.txt";
-    public static final String LINE1 = "The first line";
-    public static final String LINE2 = "The second line";
-    public static final String SEPARATOR = System.getProperty("line.separator");
+    public static final String FILE_NAME = "writeWithCommons.txt";
 
     /**
      * 使用FileUtils可以进行文件写入, 重构的方法可以设置文件编码和写入模式
      */
-    public static void useWithCommons() {
+    public static void writeWithCommons() {
         String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
             FileUtils.writeStringToFile(new File(FILE_NAME), data, StandardCharsets.UTF_8, true);

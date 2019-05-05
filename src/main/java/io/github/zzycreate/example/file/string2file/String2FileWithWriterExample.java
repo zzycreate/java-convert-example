@@ -14,14 +14,17 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+
 /**
  * 使用 Writer 向文件中写入内容
  * File to String using Writer
  *
  * @author zzycreate
  * @date 19-5-3
- * @see <a href="http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java">
- * http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java</a>
+ * @see <a href="https://stackoverflow.com/questions/2885173">stackoverflow.com/a/2885173</a>
  */
 public class String2FileWithWriterExample {
 
@@ -30,9 +33,6 @@ public class String2FileWithWriterExample {
     public static final String FILE_NAME_PRINT_WRITER3 = "usePrintWriterInLombokCleanUp.txt";
     public static final String FILE_NAME_FILE_WRITER = "useFileWriter.txt";
     public static final String FILE_NAME_BUFFERED_WRITER = "useBufferedWriter.txt";
-    public static final String LINE1 = "The first line";
-    public static final String LINE2 = "The second line";
-    public static final String SEPARATOR = System.getProperty("line.separator");
 
     /**
      * jdk1.7以前使用 try-catch-finally，jdk1.7以后可以使用 try-with-resources

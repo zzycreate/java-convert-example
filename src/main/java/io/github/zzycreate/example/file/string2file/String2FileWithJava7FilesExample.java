@@ -9,6 +9,10 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+
 /**
  * 向文件中写入内容
  * File to String
@@ -22,17 +26,13 @@ import java.util.List;
  *
  * @author zzycreate
  * @date 19-5-4
- * @see <a href="http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java">
- * http://stackoverflow.com/questions/2885173/how-to-create-a-file-and-write-to-a-file-in-java</a>
+ * @see <a href="https://stackoverflow.com/questions/2885173">stackoverflow.com/a/2885173</a>
  */
 public class String2FileWithJava7FilesExample {
 
-    public static final String FILE_NAME = "useByJava7Files.txt";
-    public static final String LINE1 = "The first line";
-    public static final String LINE2 = "The second line";
-    public static final String SEPARATOR = System.getProperty("line.separator");
+    public static final String FILE_NAME = "writeByJava7Files.txt";
 
-    public static void useByJava7Files() {
+    public static void writeByJava7Files() {
         List<String> lines = Arrays.asList(LINE1, LINE2);
         Path path = Paths.get(FILE_NAME);
         try {

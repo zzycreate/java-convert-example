@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER1;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER2;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER3;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.LINE1;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.LINE2;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.SEPARATOR;
 
 /**
  * String2FileWithWriterExample 单元测试

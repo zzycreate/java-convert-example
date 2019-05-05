@@ -9,21 +9,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 import static io.github.zzycreate.example.file.string2file.String2FileWithCommonsExample.FILE_NAME;
-import static io.github.zzycreate.example.file.string2file.String2FileWithCommonsExample.LINE1;
-import static io.github.zzycreate.example.file.string2file.String2FileWithCommonsExample.LINE2;
-import static io.github.zzycreate.example.file.string2file.String2FileWithCommonsExample.SEPARATOR;
 
 /**
- * @author esp
+ * @author zzycreate
  * @date 19-5-5
  */
 public class String2FileWithCommonsExampleTest {
 
     @Test
-    public void testUseWithCommons() {
+    public void testWriteWithCommons() {
 
-        String2FileWithCommonsExample.useWithCommons();
+        String2FileWithCommonsExample.writeWithCommons();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME)));

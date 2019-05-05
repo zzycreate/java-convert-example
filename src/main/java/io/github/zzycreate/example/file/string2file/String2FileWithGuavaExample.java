@@ -1,7 +1,6 @@
 package io.github.zzycreate.example.file.string2file;
 
 import com.google.common.io.Files;
-import com.google.common.io.MoreFiles;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class String2FileWithGuavaExample {
     public static final String FILE_NAME = "writeByGuavaFiles.txt";
 
     /**
-     * guava 的 Files 可以直接想文件中写入 byte[] 数据
+     * guava 的 Files 可以直接向文件中写入 byte[] 数据
      * Files 标注为 @Beta 不稳定的版本，并提示使用 jdk7 nio 的 Files、MoreFiles 等工具类利用 nio 的 Path 进行文件处理
      */
     public static void writeByGuavaFiles() {
