@@ -1,9 +1,11 @@
 package io.github.zzycreate.example.file.string2file;
 
+import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static io.github.zzycreate.example.file.Constant.LINE1;
 import static io.github.zzycreate.example.file.Constant.LINE2;
@@ -36,6 +38,20 @@ public class String2FileWithGuavaExample {
         String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
             Files.write(data.getBytes(), new File(FILE_NAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 由于 guava Files 的 write 写入 String 的重载方法标注为过期，查看文档可知，推荐使用 CharSink 的 write 方法进行文件写入
+     * guava 的 CharSink 可以直接向文件中写入字符数据，ByteSink 则可以写入字节数据
+     * Files 中的 write、append、copy 等方法本质上都是调用的这些 Sink 类。
+     */
+    public static void writeByGuavaCharSink() {
+        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
+        try {
+            Files.asCharSink(new File(FILE_NAME), StandardCharsets.UTF_8, FileWriteMode.APPEND).write(data);
         } catch (IOException e) {
             e.printStackTrace();
         }

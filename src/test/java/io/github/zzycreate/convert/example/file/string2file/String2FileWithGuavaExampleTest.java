@@ -38,4 +38,22 @@ public class String2FileWithGuavaExampleTest {
         Assert.assertFalse(file.exists());
     }
 
+    @Test
+    public void testWriteByGuavaCharSink(){
+        String2FileWithGuavaExample.writeByGuavaCharSink();
+
+        try {
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME)));
+            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+        } catch (IOException e) {
+            Assert.assertNull(e);
+        }
+        // delete file
+        File file = new File(FILE_NAME);
+        Assert.assertNotNull(file);
+        Assert.assertTrue(file.exists());
+        Assert.assertTrue(file.delete());
+        Assert.assertFalse(file.exists());
+    }
+
 }

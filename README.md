@@ -145,16 +145,33 @@ DEMO 参考： [String2FileWithCommonsExample](https://github.com/zzycreate/java
 #### 使用 guava 的 Files
 
 Guava 的官方开源项目地址： [google/guava](https://github.com/google/guava)  
-guava 的 Files 可以直接想文件中写入 byte[] 数据  
+guava 的 Files 可以直接向文件中写入 byte[] 数据  
 Files 已被标注为 @Beta 不稳定的版本，并提示使用 jdk7 nio 的 Files、MoreFiles 等工具类利用 nio 的 Path 进行文件处理  
 
 DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithGuavaExample.java)
 
 ```
     try {
-    String data = "The second line" + System.getProperty("line.separator") + 
+        String data = "The second line" + System.getProperty("line.separator") + 
                           "The second line" + System.getProperty("line.separator");
         Files.write(data.getBytes(), new File("filename.txt"));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+#### 使用 guava 的 CharSink/ByteSink
+
+guava 的 CharSink 可以直接向文件中写入字符数据，ByteSink 则可以写入字节数据  
+Files 中的 write、append、copy 等方法本质上都是调用的这些 Sink 类。    
+
+DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithGuavaExample.java)
+
+```
+    try {
+        String data = "The second line" + System.getProperty("line.separator") + 
+                          "The second line" + System.getProperty("line.separator");
+       Files.asCharSink(new File("filename.txt"), StandardCharsets.UTF_8, FileWriteMode.APPEND).write(data);
     } catch (IOException e) {
         e.printStackTrace();
     }
