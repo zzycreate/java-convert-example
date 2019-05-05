@@ -5,6 +5,52 @@
 
 ## 文件
 
+Java 为文件操作设计了很多的类，有数据相关的 IO Stream 流，与文件相关的File、Path等对文件系统的抽象。  
+Java 的 io 包和几乎包含了所有操作输入、输出需要的类，另外 java1.4 开始推出的 nio 接口能更高效的完成一些工作。  
+Java io 包中的流支持很多种格式，比如：基本类型、对象、本地化字符集等等。所有这些流类代表了输入源和输出目标。  
+一个流可以理解为一个数据的序列。输入流表示从一个源读取数据，输出流表示向一个目标写数据。  
+
+### IO
+
+#### IO 流分类：
+
+- 按照流的流向分，可以分为输入流和输出流；
+- 按照操作单元划分，可以划分为字节流和字符流；
+- 按照流的角色划分为节点流和处理流。
+
+按照操作方式分类：
+
+![java IO Stream 操作方式分类](./java-convert-example/java-io-classify1.jpg)
+
+按照操作对象分类：
+
+![java IO Stream 操作对象分类](./java-convert-example/java-io-classify2.jpg)
+
+#### IO 流基础对象：
+
+- InputStream/Reader: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。
+- OutputStream/Writer: 所有输出流的基类，前者是字节输出流，后者是字符输出流。
+
+### NIO
+
+java 1.4 版本后，重新设计出了一套新的 IO 接口：Non-blocking IO(NIO)
+
+#### NIO 与 IO 的区别：
+
+1. IO是面向流的，NIO是面向缓冲区的；
+2. IO流是阻塞的，NIO流是不阻塞的;
+3. NIO有选择器，而IO没有。
+
+#### 读写数据方式：
+
+- 从通道进行数据读取 ：创建一个缓冲区，然后请求通道读取数据。
+- 从通道进行数据写入 ：创建一个缓冲区，填充数据，并要求通道写入数据。
+
+### 文件
+
+java 文件操作的基础是 File/Path, 一个代表文件，一个代表路径，两者组合完整地描述各种操作系统中的文件，尤其适合 Linux 的 
+'Everything is a File' 的哲学。
+
 ### String -> File
 
 #### 使用 PrintWrite
@@ -59,13 +105,13 @@ DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-
     }
 ```
 
-#### 使用 jdk7 的 Files
+#### 使用 NIO 的 Files
 
-由于 nio 是 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
+由于 Files 是 nio 在 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
 
 1. 如果写入的是字符数据，则需要设置字符编码 Charset
 2. 如果写入的是字节数据（byte[]），不需要设置字符编码
-3. 如果想在已存在的文件后追加内容，可以增加 {@link java.nio.file.StandardOpenOption#APPEND} 参数
+3. 如果想在已存在的文件后追加内容，可以增加 java.nio.file.StandardOpenOption#APPEND 参数
 
 DEMO 参考： [String2FileWithJava7FilesExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithJava7FilesExample.java)
 
