@@ -85,8 +85,8 @@ public class String2FileWithWriterExample {
     public static void useFileWriter() {
 
         try (FileWriter writer = new FileWriter(new File(FILE_NAME3), true)) {
-            writer.append(LINE1).append(SEPARATOR)
-                    .append(LINE2).append(SEPARATOR);
+            writer.write(LINE1 + SEPARATOR);
+            writer.append(LINE2).append(SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -95,6 +95,7 @@ public class String2FileWithWriterExample {
 
     /**
      * BufferedWriter 可以设置缓存区大小; OutputStreamWriter 可以指定字符集编码; FileOutputStream 可以指定文件编辑模式(追加/覆盖)
+     * 使用 PrintWriter/FileWriter 一般写入的内容比较少，如果需要写入大量数据，应该要使用缓冲流，提高效率
      */
     public static void useBufferdWriter() {
 
