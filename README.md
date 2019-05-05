@@ -125,6 +125,21 @@ DEMO 参考： [String2FileWithJava7FilesExample](https://github.com/zzycreate/j
     }
 ```
 
+#### 使用 commons-io 的 FileUtils
+
+使用 commons-io 包中的 FileUtils 进行文件写入, 重构的方法可以设置文件编码和写入模式
+
+DEMO 参考： [String2FileWithCommonsExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithCommonsExample.java)
+
+```
+    try {
+        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
+        FileUtils.writeStringToFile(new File(FILE_NAME), data, StandardCharsets.UTF_8, true);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 ## 日期时间
 
 ## steam流

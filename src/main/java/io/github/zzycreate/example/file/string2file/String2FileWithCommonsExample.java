@@ -1,5 +1,8 @@
 package io.github.zzycreate.example.file.string2file;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,12 +16,10 @@ import java.util.List;
  * 向文件中写入内容
  * File to String
  * <p>
- * 使用 java7 的 nio 类 Files 进行文件写入
+ * 使用 Commons-IO 进行文件写入
  * <p>
- * 由于 nio 是 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
- * 1. 如果写入的是字符数据，则需要设置字符编码 {@link StandardCharsets} {@link Charset}
- * 2. 如果写入的是字节数据（byte[]），则不需要
- * 3. 如果想在已存在的文件后追加内容，可以增加 {@link java.nio.file.StandardOpenOption#APPEND} 参数
+ * Commons-io 是 apache 的 Commons 系列项目中用于处理 IO 的工具包。包中提供很多方便的文件操作操作API
+ * Commons-io 项目地址： https://commons.apache.org/proper/commons-io/
  *
  * @author zzycreate
  * @date 19-5-4
@@ -32,14 +33,17 @@ public class String2FileWithCommonsExample {
     public static final String LINE2 = "The second line";
     public static final String SEPARATOR = System.getProperty("line.separator");
 
+    /**
+     * 使用FileUtils可以进行文件写入, 重构的方法可以设置文件编码和写入模式
+     */
     public static void useWithCommons() {
-        List<String> lines = Arrays.asList(LINE1, LINE2);
-        Path path = Paths.get(FILE_NAME);
+        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            Files.write(path, lines, StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(new File(FILE_NAME), data, StandardCharsets.UTF_8, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }
