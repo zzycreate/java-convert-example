@@ -1,5 +1,7 @@
 package io.github.zzycreate.example.file.string2file;
 
+import lombok.Cleanup;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,10 +25,11 @@ import java.nio.charset.StandardCharsets;
  */
 public class String2FileWithWriterExample {
 
-    public static final String FILE_NAME1 = "usePrintWriterInTryCatchFinally.txt";
-    public static final String FILE_NAME2 = "usePrintWriterInTryWithResources.txt";
-    public static final String FILE_NAME3 = "useFileWriter.txt";
-    public static final String FILE_NAME4 = "useBufferdWriter.txt";
+    public static final String FILE_NAME_PRINT_WRITER1 = "usePrintWriterInTryCatchFinally.txt";
+    public static final String FILE_NAME_PRINT_WRITER2 = "usePrintWriterInTryWithResources.txt";
+    public static final String FILE_NAME_PRINT_WRITER3 = "usePrintWriterInLombokCleanUp.txt";
+    public static final String FILE_NAME_FILE_WRITER = "useFileWriter.txt";
+    public static final String FILE_NAME_BUFFERED_WRITER = "useBufferedWriter.txt";
     public static final String LINE1 = "The first line";
     public static final String LINE2 = "The second line";
     public static final String SEPARATOR = System.getProperty("line.separator");
@@ -39,7 +42,7 @@ public class String2FileWithWriterExample {
         // Try-Catch-Finally
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(FILE_NAME1, "UTF-8");
+            writer = new PrintWriter(FILE_NAME_PRINT_WRITER1, "UTF-8");
             writer.println(LINE1);
             writer.println(LINE2);
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -70,7 +73,7 @@ public class String2FileWithWriterExample {
     public static void usePrintWriterInTryWithResources() {
 
         // Try-With-Resources
-        try (PrintWriter writer = new PrintWriter(FILE_NAME2, "UTF-8")) {
+        try (PrintWriter writer = new PrintWriter(FILE_NAME_PRINT_WRITER2, "UTF-8")) {
             writer.println(LINE1);
             writer.println(LINE2);
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -80,11 +83,27 @@ public class String2FileWithWriterExample {
     }
 
     /**
+     * 使用Lombok的 {@link Cleanup @CleanUp} 注解可以省略文件流的手动关闭过程，
+     * 编译时Lombok插件会在整段使用了该流对象外面添加 try-catch-finally 代码块，从而不需要显示的书写关闭流的代码，
+     * lombok @CLeanUp 详细用法参考： https://projectlombok.org/features/Cleanup
+     */
+    public static void usePrintWriterInLombokCleanUp() {
+        @Cleanup PrintWriter writer;
+        try {
+            writer = new PrintWriter(FILE_NAME_PRINT_WRITER3, "UTF-8");
+            writer.println(LINE1);
+            writer.println(LINE2);
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * FileWriter 在创建的时候可以指定追加/覆盖模式，避免 PrintWriter 截断已存在的文件。
      */
     public static void useFileWriter() {
 
-        try (FileWriter writer = new FileWriter(new File(FILE_NAME3), true)) {
+        try (FileWriter writer = new FileWriter(new File(FILE_NAME_FILE_WRITER), true)) {
             writer.write(LINE1 + SEPARATOR);
             writer.append(LINE2).append(SEPARATOR);
         } catch (IOException e) {
@@ -100,7 +119,7 @@ public class String2FileWithWriterExample {
     public static void useBufferdWriter() {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(FILE_NAME4, true), StandardCharsets.UTF_8))) {
+                new FileOutputStream(FILE_NAME_BUFFERED_WRITER, true), StandardCharsets.UTF_8))) {
             writer.write(LINE1 + SEPARATOR + LINE2 + SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();

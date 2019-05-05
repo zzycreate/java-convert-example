@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME1;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME2;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME3;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME4;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER1;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER2;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER3;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.LINE1;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.LINE2;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.SEPARATOR;
@@ -31,13 +32,13 @@ public class String2FileWithWriterExampleTest {
         String2FileWithWriterExample.usePrintWriterInTryCatchFinally();
 
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME1)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER1)));
             Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
         // delete file
-        File file1 = new File(FILE_NAME1);
+        File file1 = new File(FILE_NAME_PRINT_WRITER1);
         Assert.assertNotNull(file1);
         Assert.assertTrue(file1.exists());
         Assert.assertTrue(file1.delete());
@@ -46,17 +47,32 @@ public class String2FileWithWriterExampleTest {
         String2FileWithWriterExample.usePrintWriterInTryWithResources();
 
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME2)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER2)));
             Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
         // delete file
-        File file2 = new File(FILE_NAME2);
+        File file2 = new File(FILE_NAME_PRINT_WRITER2);
         Assert.assertNotNull(file2);
         Assert.assertTrue(file2.exists());
         Assert.assertTrue(file2.delete());
         Assert.assertFalse(file2.exists());
+
+        String2FileWithWriterExample.usePrintWriterInLombokCleanUp();
+
+        try {
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER3)));
+            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+        } catch (IOException e) {
+            Assert.assertNull(e);
+        }
+        // delete file
+        File file3 = new File(FILE_NAME_PRINT_WRITER3);
+        Assert.assertNotNull(file3);
+        Assert.assertTrue(file3.exists());
+        Assert.assertTrue(file3.delete());
+        Assert.assertFalse(file3.exists());
 
     }
 
@@ -67,7 +83,7 @@ public class String2FileWithWriterExampleTest {
 
         String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME3)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
             Assert.assertEquals(content, text);
         } catch (IOException e) {
             Assert.assertNull(e);
@@ -76,14 +92,14 @@ public class String2FileWithWriterExampleTest {
         String2FileWithWriterExample.useFileWriter();
 
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME3)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
             Assert.assertEquals(content + content, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
 
         // delete file
-        File file = new File(FILE_NAME3);
+        File file = new File(FILE_NAME_FILE_WRITER);
         Assert.assertNotNull(file);
         Assert.assertTrue(file.exists());
         Assert.assertTrue(file.delete());
@@ -98,7 +114,7 @@ public class String2FileWithWriterExampleTest {
 
         String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME4)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
             Assert.assertEquals(content, text);
         } catch (IOException e) {
             Assert.assertNull(e);
@@ -107,14 +123,14 @@ public class String2FileWithWriterExampleTest {
         String2FileWithWriterExample.useBufferdWriter();
 
         try {
-            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME4)));
+            String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
             Assert.assertEquals(content + content, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
 
         // delete file
-        File file = new File(FILE_NAME4);
+        File file = new File(FILE_NAME_BUFFERED_WRITER);
         Assert.assertNotNull(file);
         Assert.assertTrue(file.exists());
         Assert.assertTrue(file.delete());
