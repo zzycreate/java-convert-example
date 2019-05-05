@@ -105,7 +105,7 @@ DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-
     }
 ```
 
-#### 使用 NIO 的 Files
+#### 使用 NIO 的 Files **(推荐)**
 
 由于 Files 是 nio 在 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
 
@@ -127,14 +127,34 @@ DEMO 参考： [String2FileWithJava7FilesExample](https://github.com/zzycreate/j
 
 #### 使用 commons-io 的 FileUtils
 
+Commons-io 项目地址： [apache/commons-io](https://commons.apache.org/proper/commons-io/)  
 使用 commons-io 包中的 FileUtils 进行文件写入, 重构的方法可以设置文件编码和写入模式
 
 DEMO 参考： [String2FileWithCommonsExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithCommonsExample.java)
 
 ```
     try {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
-        FileUtils.writeStringToFile(new File(FILE_NAME), data, StandardCharsets.UTF_8, true);
+        String data = "The second line" + System.getProperty("line.separator") + 
+                              "The second line" + System.getProperty("line.separator");
+        FileUtils.writeStringToFile(new File("filename.txt"), data, StandardCharsets.UTF_8, true);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+#### 使用 guava 的 Files
+
+Guava 的官方开源项目地址： [google/guava](https://github.com/google/guava)  
+guava 的 Files 可以直接想文件中写入 byte[] 数据  
+Files 已被标注为 @Beta 不稳定的版本，并提示使用 jdk7 nio 的 Files、MoreFiles 等工具类利用 nio 的 Path 进行文件处理  
+
+DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithGuavaExample.java)
+
+```
+    try {
+    String data = "The second line" + System.getProperty("line.separator") + 
+                          "The second line" + System.getProperty("line.separator");
+        Files.write(data.getBytes(), new File("filename.txt"));
     } catch (IOException e) {
         e.printStackTrace();
     }
