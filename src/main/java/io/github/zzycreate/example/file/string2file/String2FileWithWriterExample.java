@@ -88,9 +88,8 @@ public class String2FileWithWriterExample {
      * lombok @CLeanUp 详细用法参考： https://projectlombok.org/features/Cleanup
      */
     public static void usePrintWriterInLombokCleanUp() {
-        @Cleanup PrintWriter writer;
         try {
-            writer = new PrintWriter(FILE_NAME_PRINT_WRITER3, "UTF-8");
+            @Cleanup PrintWriter writer = new PrintWriter(FILE_NAME_PRINT_WRITER3, "UTF-8");
             writer.println(LINE1);
             writer.println(LINE2);
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
