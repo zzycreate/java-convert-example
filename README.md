@@ -234,6 +234,34 @@ DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-c
 
 ### File -> String (Read File)
 
+#### 使用 NIO 的 Files
+
+NIO 的 Files 工具类提供多种 read 方法可以快速进行文件读取
+
+使用 readAllBytes 读取字节：
+
+```
+    try {
+        return new String(Files.readAllBytes(Paths.get(FILE_NAME_INPUT)));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+使用 readAllLines 逐行读取字符串：
+
+```
+    try {
+        List<String> lines = Files.readAllLines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
+        lines.forEach(s -> sb.append(s).append(SEPARATOR));
+        return sb.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return null;
+```
+
 ### File -> File (copy File)
 
 #### 使用 NIO 的 Channel
