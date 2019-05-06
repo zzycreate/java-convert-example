@@ -53,6 +53,78 @@ java 文件操作的基础是 File/Path, 一个代表文件，一个代表路径
 
 ### String -> File
 
+#### 使用 NIO 的 Files **(推荐)**
+
+由于 Files 是 nio 在 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+; Files 工具类提供了各种读写创建删除文件等操作，可以很方便的操作文件和流。
+
+1. 如果写入的是字符数据，则需要设置字符编码 Charset
+2. 如果写入的是字节数据（byte[]），不需要设置字符编码
+3. 如果想在已存在的文件后追加内容，可以增加 java.nio.file.StandardOpenOption#APPEND 参数
+
+DEMO 参考： [String2FileWithJavaNioExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithJavaNioExample.java)
+
+```
+    List<String> lines = Arrays.asList("The second line", "The second line");
+    Path path = Paths.get("filename.txt");
+    try {
+        Files.write(path, lines, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+#### 使用 NIO 的 Channel
+
+标准的IO编程接口是面向字节流和字符流的。而NIO是面向通道和缓冲区的，数据总是从通道中读到buffer缓冲区内，或者从buffer写入到通道中。
+
+Java NIO 的 Channel 和 IO 流的对比：
+
+1. 通道可以读也可以写，流一般来说是单向的（只能读或者写）。
+2. 通道可以异步读写。
+3. 通道总是基于缓冲区Buffer来读写。
+
+使用 FileOutputStream 的 FileChannel：
+
+```
+    String data = "The second line" + System.getProperty("line.separator") + 
+                          "The second line" + System.getProperty("line.separator");
+    // use ByteBuffer wrap data
+    final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+    // try-with-resources auto close the channel
+    try (
+            // open channel
+            final FileOutputStream fos = new FileOutputStream(new File("filename.txt"));
+            FileChannel channel = fos.getChannel()
+    ) {
+        // write buffer to channel
+        while (buffer.hasRemaining()) {
+            channel.write(buffer);
+        }
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+使用 RandomAccessFile 的 FileChannel：
+
+```
+    String data = "The second line" + System.getProperty("line.separator") + 
+                          "The second line" + System.getProperty("line.separator");
+    final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+    try(
+            final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
+            FileChannel channel = file.getChannel()
+            ){
+        while (buffer.hasRemaining()){
+            channel.write(buffer);
+        }
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 #### 使用 PrintWrite
 
 使用PrintWrite可以很简单的使用println进行单行输入，但是存在的文件会被截断
@@ -100,26 +172,6 @@ DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-
             new FileOutputStream("filename.txt", true), StandardCharsets.UTF_8))) {
         writer.write("The second line" + System.getProperty("line.separator") + 
         "The second line" + System.getProperty("line.separator"));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-```
-
-#### 使用 NIO 的 Files **(推荐)**
-
-由于 Files 是 nio 在 java7 新增的内容，使用本方法需要首先将程序的 jdk 升级到 jdk7+
-
-1. 如果写入的是字符数据，则需要设置字符编码 Charset
-2. 如果写入的是字节数据（byte[]），不需要设置字符编码
-3. 如果想在已存在的文件后追加内容，可以增加 java.nio.file.StandardOpenOption#APPEND 参数
-
-DEMO 参考： [String2FileWithJava7FilesExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithJava7FilesExample.java)
-
-```
-    List<String> lines = Arrays.asList("The second line", "The second line");
-    Path path = Paths.get("filename.txt");
-    try {
-        Files.write(path, lines, StandardCharsets.UTF_8);
     } catch (IOException e) {
         e.printStackTrace();
     }
