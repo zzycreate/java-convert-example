@@ -1,7 +1,7 @@
 package io.github.zzycreate.example.file;
 
 /**
- * @author esp
+ * @author zzycreate
  * @date 19-5-5
  */
 public interface Constant {

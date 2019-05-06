@@ -51,7 +51,7 @@ java 1.4 版本后，重新设计出了一套新的 IO 接口：Non-blocking IO(
 java 文件操作的基础是 File/Path, 一个代表文件，一个代表路径，两者组合完整地描述各种操作系统中的文件，尤其适合 Linux 的 
 'Everything is a File' 的哲学。
 
-### String -> File
+### String -> File （Write File）
 
 #### 使用 NIO 的 Files **(推荐)**
 
@@ -231,6 +231,10 @@ DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-c
         e.printStackTrace();
     }
 ```
+
+### File -> String (Read File)
+
+
 
 ## 日期时间
 

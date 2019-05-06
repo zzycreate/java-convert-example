@@ -15,7 +15,7 @@ import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 import static io.github.zzycreate.example.file.string2file.String2FileWithGuavaExample.FILE_NAME;
 
 /**
- * @author esp
+ * @author zzycreate
  * @date 19-5-5
  */
 public class String2FileWithGuavaExampleTest {
