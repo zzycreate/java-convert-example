@@ -28,16 +28,16 @@ import static io.github.zzycreate.example.file.Constant.SEPARATOR;
  */
 public class String2FileWithWriterExample {
 
-    public static final String FILE_NAME_PRINT_WRITER1 = "usePrintWriterInTryCatchFinally.txt";
-    public static final String FILE_NAME_PRINT_WRITER2 = "usePrintWriterInTryWithResources.txt";
-    public static final String FILE_NAME_PRINT_WRITER3 = "usePrintWriterInLombokCleanUp.txt";
-    public static final String FILE_NAME_FILE_WRITER = "useFileWriter.txt";
+    public static final String FILE_NAME_PRINT_WRITER1 = "writeByPrintWriterInTryCatchFinally.txt";
+    public static final String FILE_NAME_PRINT_WRITER2 = "writeByPrintWriterInTryWithResources.txt";
+    public static final String FILE_NAME_PRINT_WRITER3 = "writeByPrintWriterInLombokCleanUp.txt";
+    public static final String FILE_NAME_FILE_WRITER = "writeByFileWriter.txt";
     public static final String FILE_NAME_BUFFERED_WRITER = "useBufferedWriter.txt";
 
     /**
      * jdk1.7以前使用 try-catch-finally，jdk1.7以后可以使用 try-with-resources
      */
-    public static void usePrintWriterInTryCatchFinally() {
+    public static void writeByPrintWriterInTryCatchFinally() {
 
         // Try-Catch-Finally
         PrintWriter writer = null;
@@ -59,9 +59,9 @@ public class String2FileWithWriterExample {
      * 使用 PrintWriter 向文件中写内容
      * <p>
      * PrintWriter 是 jdk1.1 的 Writer 类, 需要手动关闭（Try-Catch-Finally）, 见
-     * {@link String2FileWithWriterExample#usePrintWriterInTryCatchFinally()},
+     * {@link String2FileWithWriterExample#writeByPrintWriterInTryCatchFinally()},
      * 或者使用 jdk1.7 的 Try-With-Resources 写法, 见
-     * {@link String2FileWithWriterExample#usePrintWriterInTryWithResources()}
+     * {@link String2FileWithWriterExample#writeByPrintWriterInTryWithResources()}
      * <p>
      * 缺点：
      * 1. 如果文件已经存在，PrintWriter会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符
@@ -70,7 +70,7 @@ public class String2FileWithWriterExample {
      * 3. PriteWriter 会导致吞异常，见
      * <a href="https://stackoverflow.com/questions/1747040/difference-between-java-io-printwriter-and-java-io-bufferedwriter/1747092#1747092">stackoverflow.com/a/1747092/4678667</a>
      */
-    public static void usePrintWriterInTryWithResources() {
+    public static void writeByPrintWriterInTryWithResources() {
 
         // Try-With-Resources
         try (PrintWriter writer = new PrintWriter(FILE_NAME_PRINT_WRITER2, "UTF-8")) {
@@ -87,7 +87,7 @@ public class String2FileWithWriterExample {
      * 编译时Lombok插件会在整段使用了该流对象外面添加 try-catch-finally 代码块，从而不需要显示的书写关闭流的代码，
      * lombok @CLeanUp 详细用法参考： https://projectlombok.org/features/Cleanup
      */
-    public static void usePrintWriterInLombokCleanUp() {
+    public static void writeByPrintWriterInLombokCleanUp() {
         try {
             @Cleanup PrintWriter writer = new PrintWriter(FILE_NAME_PRINT_WRITER3, "UTF-8");
             writer.println(LINE1);
@@ -100,7 +100,7 @@ public class String2FileWithWriterExample {
     /**
      * FileWriter 在创建的时候可以指定追加/覆盖模式，避免 PrintWriter 截断已存在的文件。
      */
-    public static void useFileWriter() {
+    public static void writeByFileWriter() {
 
         try (FileWriter writer = new FileWriter(new File(FILE_NAME_FILE_WRITER), true)) {
             writer.write(LINE1 + SEPARATOR);
@@ -115,7 +115,7 @@ public class String2FileWithWriterExample {
      * BufferedWriter 可以设置缓存区大小; OutputStreamWriter 可以指定字符集编码; FileOutputStream 可以指定文件编辑模式(追加/覆盖)
      * 使用 PrintWriter/FileWriter 一般写入的内容比较少，如果需要写入大量数据，应该要使用缓冲流，提高效率
      */
-    public static void useBufferdWriter() {
+    public static void writeByBufferdWriter() {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FILE_NAME_BUFFERED_WRITER, true), StandardCharsets.UTF_8))) {

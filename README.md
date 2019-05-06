@@ -266,6 +266,9 @@ Buffer 的方法：
 
 使用不同的 Channel 同时操作同一个 Buffer 可以实现文件的复制。
 
+DEMO 参考： [File2FileWithNioExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2file/File2FileWithNioExample.java)
+
+
 ```
     try (
             FileInputStream input = new FileInputStream(FILE_NAME_INPUT);

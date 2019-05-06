@@ -27,9 +27,9 @@ import static io.github.zzycreate.example.file.string2file.String2FileWithWriter
 public class String2FileWithWriterExampleTest {
 
     @Test
-    public void usePrintWriter() {
+    public void writeByPrintWriter() {
 
-        String2FileWithWriterExample.usePrintWriterInTryCatchFinally();
+        String2FileWithWriterExample.writeByPrintWriterInTryCatchFinally();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER1)));
@@ -44,7 +44,7 @@ public class String2FileWithWriterExampleTest {
         Assert.assertTrue(file1.delete());
         Assert.assertFalse(file1.exists());
 
-        String2FileWithWriterExample.usePrintWriterInTryWithResources();
+        String2FileWithWriterExample.writeByPrintWriterInTryWithResources();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER2)));
@@ -59,7 +59,7 @@ public class String2FileWithWriterExampleTest {
         Assert.assertTrue(file2.delete());
         Assert.assertFalse(file2.exists());
 
-        String2FileWithWriterExample.usePrintWriterInLombokCleanUp();
+        String2FileWithWriterExample.writeByPrintWriterInLombokCleanUp();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER3)));
@@ -77,9 +77,9 @@ public class String2FileWithWriterExampleTest {
     }
 
     @Test
-    public void useFileWriter() {
+    public void writeByFileWriter() {
 
-        String2FileWithWriterExample.useFileWriter();
+        String2FileWithWriterExample.writeByFileWriter();
 
         String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
@@ -89,7 +89,7 @@ public class String2FileWithWriterExampleTest {
             Assert.assertNull(e);
         }
 
-        String2FileWithWriterExample.useFileWriter();
+        String2FileWithWriterExample.writeByFileWriter();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
@@ -108,9 +108,9 @@ public class String2FileWithWriterExampleTest {
     }
 
     @Test
-    public void useBufferdWriter() {
+    public void writeByBufferdWriter() {
 
-        String2FileWithWriterExample.useBufferdWriter();
+        String2FileWithWriterExample.writeByBufferdWriter();
 
         String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
@@ -120,7 +120,7 @@ public class String2FileWithWriterExampleTest {
             Assert.assertNull(e);
         }
 
-        String2FileWithWriterExample.useBufferdWriter();
+        String2FileWithWriterExample.writeByBufferdWriter();
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
