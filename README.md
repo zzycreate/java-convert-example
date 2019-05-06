@@ -234,9 +234,11 @@ DEMO 参考： [String2FileWithGuavaExample](https://github.com/zzycreate/java-c
 
 ### File -> String (Read File)
 
-#### 使用 NIO 的 Files
+#### 使用 NIO 的 Files **(推荐)**
 
 NIO 的 Files 工具类提供多种 read 方法可以快速进行文件读取
+
+DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithNioExample.java)
 
 使用 readAllBytes 读取字节：
 
