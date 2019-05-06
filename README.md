@@ -83,6 +83,9 @@ Java NIO 的 Channel 和 IO 流的对比：
 2. 通道可以异步读写。
 3. 通道总是基于缓冲区Buffer来读写。
 
+DEMO 参考： [String2FileWithJavaNioExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithJavaNioExample.java)
+
+
 使用 FileOutputStream 的 FileChannel：
 
 ```
