@@ -10,4 +10,5 @@ public interface Constant {
     String LINE2 = "The second line";
     String SEPARATOR = System.getProperty("line.separator");
 
+    String FILE_NAME_INPUT = "input.txt";
 }
