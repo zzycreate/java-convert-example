@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
 import static io.github.zzycreate.example.file.Constant.SEPARATOR;
@@ -38,12 +39,30 @@ public class File2StringWithNioExample {
      *
      * @return 文件内容
      */
-    public static String readLinesByJava7FilesInReadLines() {
+    public static String readLinesByJava7FilesInReadAllLines() {
         try {
             List<String> lines = Files.readAllLines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8);
             StringBuilder sb = new StringBuilder();
             lines.forEach(s -> sb.append(s).append(SEPARATOR));
             return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 使用 Files.lines() 方法转换为 Stream<String> 进行逐行读取。
+     * 由于 Stream 内部无法在 lambda 中使用带有 checked Exception 的方法，因此用try-with-resources 进行异常的抓取
+     *
+     * @return 文件内容
+     */
+    public static String readLinesByJava7FilesInLines() {
+        try (Stream<String> lines = Files.lines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8)
+        ) {
+            StringBuilder content = new StringBuilder();
+            lines.forEach(s -> content.append(s).append(SEPARATOR));
+            return content.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -19,8 +19,14 @@ public class File2StringWithNioExampleTest {
     }
 
     @Test
-    public void testReadLinesByJava7FilesInReadLines() {
-        String content = File2StringWithNioExample.readLinesByJava7FilesInReadLines();
+    public void testReadLinesByJava7FilesInReadAllLines() {
+        String content = File2StringWithNioExample.readLinesByJava7FilesInReadAllLines();
+        Assert.assertEquals(READER_CONTENT, content);
+    }
+
+    @Test
+    public void testReadLinesByJava7FilesInLines() {
+        String content = File2StringWithNioExample.readLinesByJava7FilesInLines();
         Assert.assertEquals(READER_CONTENT, content);
     }
 
