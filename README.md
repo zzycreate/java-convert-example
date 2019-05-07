@@ -283,6 +283,25 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 
 #### 使用 BufferedReader **(推荐)**
 
+BufferedReader 缓冲流，可以高效的读取文件，使用 Reader 和 InputStream 组合可以设置各种配置。  
+1. 使用 InputStreamReader 可以设置字符集
+2. 使用 FileInputStream 可以读取文件
+3. 使用 FileReader 直接读取文件
+
+```
+    // new BufferedReader(new FileReader("filename.txt"));
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("filename.txt"), StandardCharsets.UTF_8))) {
+        String line;
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line).append(SEPARATOR);
+        }
+        return stringBuilder.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 ### File -> File (copy File)
 
 #### 使用 NIO 的 Channel

@@ -1,8 +1,10 @@
 package io.github.zzycreate.example.file.file2string;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
 import static io.github.zzycreate.example.file.Constant.SEPARATOR;
@@ -19,7 +21,8 @@ public class File2StringWithReaderExample {
      * @return 文件数据
      */
     public static String readByBufferedReader() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME_INPUT))) {
+         // new BufferedReader(new FileReader(FILE_NAME_INPUT));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(FILE_NAME_INPUT), StandardCharsets.UTF_8))) {
             String line;
             StringBuilder stringBuilder = new StringBuilder();
             while ((line = reader.readLine()) != null) {
