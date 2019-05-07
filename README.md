@@ -2,7 +2,6 @@
 
 > 平时的java项目中会存在各种对象的互相转换的情况，本项目记录一些常见对象转换的方法，例如：文件转换、日期时间转换、stream流转换、集合对象转换等
 
-
 ## 文件
 
 Java 为文件操作设计了很多的类，有数据相关的 IO Stream 流，与文件相关的File、Path等对文件系统的抽象。  
@@ -286,7 +285,9 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 BufferedReader 缓冲流，可以高效的读取文件，使用 Reader 和 InputStream 组合可以设置各种配置。  
 1. 使用 InputStreamReader 可以设置字符集
 2. 使用 FileInputStream 可以读取文件
-3. 使用 FileReader 直接读取文件
+3. 或者使用 FileReader 直接读取文件，并用 BufferedReader 包装成缓存使用
+
+DEMO 参考： [File2StringWithReaderExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithReaderExample.java)
 
 ```
     // new BufferedReader(new FileReader("filename.txt"));
@@ -300,6 +301,33 @@ BufferedReader 缓冲流，可以高效的读取文件，使用 Reader 和 Input
     } catch (IOException e) {
         e.printStackTrace();
     }
+```
+
+#### 使用 FileInputStream
+
+仅仅使用 FileInputStream 进行文件读取，从 FileInputStream 写入 byte[] 缓存，转换为文本数据，这段代码只需要 jdk1.0+
+
+DEMO 参考： [File2StringWithReaderExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithReaderExample.java)
+
+```
+    FileInputStream fis = null;
+    try {
+        fis = new FileInputStream("filename.txt");
+        byte[] buffer = new byte[fis.available()];
+        int length = fis.read(buffer);
+        return new String(buffer, 0, length, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+        e.printStackTrace();
+    } finally {
+        if (fis != null) {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    return null;
 ```
 
 ### File -> File (copy File)

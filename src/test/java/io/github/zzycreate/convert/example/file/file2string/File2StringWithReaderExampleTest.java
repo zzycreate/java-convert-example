@@ -18,4 +18,10 @@ public class File2StringWithReaderExampleTest {
         Assert.assertEquals(READER_CONTENT, content);
     }
 
+    @Test
+    public void testReadByFileInputStream() {
+        String content = File2StringWithReaderExample.readByFileInputStream();
+        Assert.assertEquals(READER_CONTENT, content);
+    }
+
 }

@@ -21,7 +21,6 @@ public class File2StringWithReaderExample {
      * @return 文件数据
      */
     public static String readByBufferedReader() {
-         // new BufferedReader(new FileReader(FILE_NAME_INPUT));
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(FILE_NAME_INPUT), StandardCharsets.UTF_8))) {
             String line;
             StringBuilder stringBuilder = new StringBuilder();
@@ -31,6 +30,32 @@ public class File2StringWithReaderExample {
             return stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 直接使用 FileInputStream 写入 byte[] 缓存，这段代码只需要 jdk1.0+
+     *
+     * @return 文件文本
+     */
+    public static String readByFileInputStream() {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(FILE_NAME_INPUT);
+            byte[] buffer = new byte[fis.available()];
+            int length = fis.read(buffer);
+            return new String(buffer, 0, length, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
