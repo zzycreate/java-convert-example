@@ -128,6 +128,26 @@ DEMO 参考： [String2FileWithJavaNioExample](https://github.com/zzycreate/java
     }
 ```
 
+#### 使用 BufferedWriter **(推荐)**
+
+1. BufferedWriter 可以设置缓存区大小
+2. OutputStreamWriter 可以指定字符集编码   
+3. FileOutputStream 可以指定文件编辑模式(追加/覆盖)
+
+使用 PrintWriter/FileWriter 一般写入的内容比较少，如果需要写入大量数据，应该要使用缓冲流，提高效率。
+
+DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithWriterExample.java)
+
+```
+    try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+            new FileOutputStream("filename.txt", true), StandardCharsets.UTF_8))) {
+        writer.write("The second line" + System.getProperty("line.separator") + 
+        "The second line" + System.getProperty("line.separator"));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 #### 使用 PrintWrite
 
 使用PrintWrite可以很简单的使用println进行单行输入，但是存在的文件会被截断
@@ -157,24 +177,6 @@ DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-
     try (FileWriter writer = new FileWriter(new File("filename.txt"), true)) {
         writer.append("The first line").append(System.getProperty("line.separator"))
                 .append(LINE2).append(System.getProperty("line.separator"));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-```
-
-#### 使用 BufferedWriter
-
-BufferedWriter 可以设置缓存区大小; OutputStreamWriter 可以指定字符集编码; FileOutputStream 可以指定文件编辑模式(追加/覆盖)。3
-
-使用 PrintWriter/FileWriter 一般写入的内容比较少，如果需要写入大量数据，应该要使用缓冲流，提高效。
-
-DEMO 参考： [String2FileWithWriterExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/string2file/String2FileWithWriterExample.java)
-
-```
-    try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-            new FileOutputStream("filename.txt", true), StandardCharsets.UTF_8))) {
-        writer.write("The second line" + System.getProperty("line.separator") + 
-        "The second line" + System.getProperty("line.separator"));
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -278,6 +280,8 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
         e.printStackTrace();
     }
 ```
+
+#### 使用 BufferedReader **(推荐)**
 
 ### File -> File (copy File)
 
