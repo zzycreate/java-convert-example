@@ -330,6 +330,24 @@ DEMO 参考： [File2StringWithReaderExample](https://github.com/zzycreate/java-
     return null;
 ```
 
+#### 使用 commons-io 的 IOUtils
+
+commons-io 的 IOUtils 工具类提供了大量 IO 相关的工具方法，使用 IOUtils.copy 直接将 Reader/InputStream 转换为 Writer/OutputStream  
+
+DEMO 参考： [File2StringWithCommonsExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithCommonsExample.java)
+
+使用 FileReader 读取文件，使用 StringWriter 将流中的内容输出出来:
+
+```
+    try (FileReader fileReader = new FileReader(FILE_NAME_INPUT);
+         StringWriter stringWriter = new StringWriter()) {
+        IOUtils.copy(fileReader, stringWriter);
+        return stringWriter.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 ### File -> File (copy File)
 
 #### 使用 NIO 的 Channel
