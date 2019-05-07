@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import static io.github.zzycreate.example.file.Constant.LINE1;
 import static io.github.zzycreate.example.file.Constant.LINE2;
 import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
 
 /**
  * 使用 Writer 向文件中写入内容
@@ -59,9 +60,9 @@ public class String2FileWithWriterExample {
      * 使用 PrintWriter 向文件中写内容
      * <p>
      * PrintWriter 是 jdk1.1 的 Writer 类, 需要手动关闭（Try-Catch-Finally）, 见
-     * {@link String2FileWithWriterExample#writeByPrintWriterInTryCatchFinally()},
+     * writeByPrintWriterInTryCatchFinally() 方法
      * 或者使用 jdk1.7 的 Try-With-Resources 写法, 见
-     * {@link String2FileWithWriterExample#writeByPrintWriterInTryWithResources()}
+     * writeByPrintWriterInTryWithResources() 方法
      * <p>
      * 缺点：
      * 1. 如果文件已经存在，PrintWriter会将文件大小截断为零，如果不想截断文件，可以使用FileWriter作为替代，FileWriter可以设置字符
@@ -119,7 +120,7 @@ public class String2FileWithWriterExample {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(FILE_NAME_BUFFERED_WRITER, true), StandardCharsets.UTF_8))) {
-            writer.write(LINE1 + SEPARATOR + LINE2 + SEPARATOR);
+            writer.write(WRITER_CONTENT);
         } catch (IOException e) {
             e.printStackTrace();
         }

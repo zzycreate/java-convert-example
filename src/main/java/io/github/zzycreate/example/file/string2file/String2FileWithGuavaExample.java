@@ -7,9 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
 
 /**
  * 向文件中写入内容
@@ -35,9 +33,8 @@ public class String2FileWithGuavaExample {
      * Files 标注为 @Beta 不稳定的版本，并提示使用 jdk7 nio 的 Files、MoreFiles 等工具类利用 nio 的 Path 进行文件处理
      */
     public static void writeByGuavaFiles() {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            Files.write(data.getBytes(), new File(FILE_NAME));
+            Files.write(WRITER_CONTENT.getBytes(), new File(FILE_NAME));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,9 +46,8 @@ public class String2FileWithGuavaExample {
      * Files 中的 write、append、copy 等方法本质上都是调用的这些 Sink 类。
      */
     public static void writeByGuavaCharSink() {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            Files.asCharSink(new File(FILE_NAME), StandardCharsets.UTF_8, FileWriteMode.APPEND).write(data);
+            Files.asCharSink(new File(FILE_NAME), StandardCharsets.UTF_8, FileWriteMode.APPEND).write(WRITER_CONTENT);
         } catch (IOException e) {
             e.printStackTrace();
         }

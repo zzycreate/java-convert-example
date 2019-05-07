@@ -9,13 +9,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
+import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER1;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER2;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
-import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER3;
 
 /**
@@ -33,7 +31,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER1)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -48,7 +46,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER2)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -63,7 +61,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER3)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -81,10 +79,9 @@ public class String2FileWithWriterExampleTest {
 
         String2FileWithWriterExample.writeByFileWriter();
 
-        String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
-            Assert.assertEquals(content, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -93,7 +90,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
-            Assert.assertEquals(content + content, text);
+            Assert.assertEquals(WRITER_CONTENT + WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -112,10 +109,9 @@ public class String2FileWithWriterExampleTest {
 
         String2FileWithWriterExample.writeByBufferdWriter();
 
-        String content = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
-            Assert.assertEquals(content, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -124,7 +120,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
-            Assert.assertEquals(content + content, text);
+            Assert.assertEquals(WRITER_CONTENT + WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }

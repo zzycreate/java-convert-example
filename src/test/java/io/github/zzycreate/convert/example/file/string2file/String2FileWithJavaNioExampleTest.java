@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
 import static io.github.zzycreate.example.file.string2file.String2FileWithJavaNioExample.FILE_NAME_BY_CHANNEL1;
 import static io.github.zzycreate.example.file.string2file.String2FileWithJavaNioExample.FILE_NAME_BY_CHANNEL2;
 import static io.github.zzycreate.example.file.string2file.String2FileWithJavaNioExample.FILE_NAME_BY_FILES;
@@ -29,7 +27,7 @@ public class String2FileWithJavaNioExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BY_FILES)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -48,7 +46,7 @@ public class String2FileWithJavaNioExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BY_CHANNEL1)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -67,7 +65,7 @@ public class String2FileWithJavaNioExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BY_CHANNEL2)));
-            Assert.assertEquals(LINE1 + SEPARATOR + LINE2 + SEPARATOR, text);
+            Assert.assertEquals(WRITER_CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }

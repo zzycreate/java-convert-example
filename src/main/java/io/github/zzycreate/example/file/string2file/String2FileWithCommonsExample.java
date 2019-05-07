@@ -6,9 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
 
 /**
  * 向文件中写入内容
@@ -31,9 +29,8 @@ public class String2FileWithCommonsExample {
      * 使用FileUtils可以进行文件写入, 重构的方法可以设置文件编码和写入模式
      */
     public static void writeWithCommons() {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
         try {
-            FileUtils.writeStringToFile(new File(FILE_NAME), data, StandardCharsets.UTF_8, true);
+            FileUtils.writeStringToFile(new File(FILE_NAME), WRITER_CONTENT, StandardCharsets.UTF_8, true);
         } catch (IOException e) {
             e.printStackTrace();
         }

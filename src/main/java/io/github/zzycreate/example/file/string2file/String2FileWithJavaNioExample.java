@@ -1,7 +1,6 @@
 package io.github.zzycreate.example.file.string2file;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -12,13 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
 import static io.github.zzycreate.example.file.Constant.LINE1;
 import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
 
 /**
  * 向文件中写入内容
@@ -62,10 +60,9 @@ public class String2FileWithJavaNioExample {
      * 3. 通道总是基于缓冲区 Buffer 来读写。
      */
     public static void writeByNioFileChannelViaFileOutputStream() {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
 
         // use ByteBuffer wrap data
-        final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap(WRITER_CONTENT.getBytes());
         // try-with-resources auto close the channel
         try (
                 // open channel
@@ -87,9 +84,8 @@ public class String2FileWithJavaNioExample {
      * 使用 RandomAccessFile 创建 channel
      */
     public static void writeByNioFileChannelViaRandomAccessFile() {
-        String data = LINE1 + SEPARATOR + LINE2 + SEPARATOR;
 
-        final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap(WRITER_CONTENT.getBytes());
         try(
                 final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
                 FileChannel channel = file.getChannel()
