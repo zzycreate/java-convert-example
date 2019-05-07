@@ -244,7 +244,7 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 
 ```
     try {
-        return new String(Files.readAllBytes(Paths.get(FILE_NAME_INPUT)));
+        return new String(Files.readAllBytes(Paths.get("filename.txt")));
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -254,7 +254,7 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 
 ```
     try {
-        List<String> lines = Files.readAllLines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8);
+        List<String> lines = Files.readAllLines(Paths.get("filename.txt"), StandardCharsets.UTF_8);
         StringBuilder sb = new StringBuilder();
         lines.forEach(s -> sb.append(s).append(SEPARATOR));
         return sb.toString();
@@ -262,6 +262,21 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
         e.printStackTrace();
     }
     return null;
+```
+
+由于 Stream 内部无法在 lambda 中使用带有 checked Exception 的方法，因此要对异常的抓取，防止发生异常  
+
+使用 lines 逐行读取字符串：
+
+```
+    try (Stream<String> lines = Files.lines(Paths.get("filename.txt"), StandardCharsets.UTF_8)
+    ) {
+        StringBuilder content = new StringBuilder();
+        lines.forEach(s -> content.append(s).append(SEPARATOR));
+        return content.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 ```
 
 ### File -> File (copy File)

@@ -53,7 +53,7 @@ public class File2StringWithNioExample {
 
     /**
      * 使用 Files.lines() 方法转换为 Stream<String> 进行逐行读取。
-     * 由于 Stream 内部无法在 lambda 中使用带有 checked Exception 的方法，因此用try-with-resources 进行异常的抓取
+     * 由于 Stream 内部无法在 lambda 中使用带有 checked Exception 的方法，因此要对异常的抓取，防止发生异常
      *
      * @return 文件内容
      */
