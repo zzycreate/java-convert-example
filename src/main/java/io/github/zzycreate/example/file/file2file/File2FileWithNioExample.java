@@ -46,12 +46,10 @@ public class File2FileWithNioExample {
      */
     public static void copeWithChannel() {
 
-        try (
-                FileInputStream input = new FileInputStream(FILE_NAME_INPUT);
-                FileOutputStream output = new FileOutputStream(FILE_NAME_OUTPUT);
-                ReadableByteChannel from = input.getChannel();
-                WritableByteChannel to = output.getChannel()
-        ) {
+        try (FileInputStream input = new FileInputStream(FILE_NAME_INPUT);
+             FileOutputStream output = new FileOutputStream(FILE_NAME_OUTPUT);
+             ReadableByteChannel from = input.getChannel();
+             WritableByteChannel to = output.getChannel()) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(16 * 1024);
             while (from.read(buffer) != -1) {
                 // Prepare the buffer to be drained

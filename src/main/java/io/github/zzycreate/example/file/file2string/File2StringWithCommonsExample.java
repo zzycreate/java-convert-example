@@ -1,10 +1,13 @@
 package io.github.zzycreate.example.file.file2string;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 
 import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
 
@@ -25,6 +28,20 @@ public class File2StringWithCommonsExample {
 
             IOUtils.copy(fileReader, stringWriter);
             return stringWriter.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 使用 FileUtils 的 readFileToString 直接读取文件内容，可以设置字符编码
+     *
+     * @return 文件内容
+     */
+    public static String readByFileUtilsReadFileToString() {
+        try {
+            return FileUtils.readFileToString(new File(FILE_NAME_INPUT), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }

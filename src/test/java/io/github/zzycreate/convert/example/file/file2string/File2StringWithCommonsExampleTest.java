@@ -18,4 +18,10 @@ public class File2StringWithCommonsExampleTest {
         Assert.assertEquals(READER_CONTENT, content);
     }
 
+    @Test
+    public void testReadByFileUtilsReadFileToString() {
+        String content = File2StringWithCommonsExample.readByFileUtilsReadFileToString();
+        Assert.assertEquals(READER_CONTENT, content);
+    }
+
 }

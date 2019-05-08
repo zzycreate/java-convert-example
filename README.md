@@ -93,11 +93,9 @@ DEMO 参考： [String2FileWithJavaNioExample](https://github.com/zzycreate/java
     // use ByteBuffer wrap data
     final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
     // try-with-resources auto close the channel
-    try (
-            // open channel
-            final FileOutputStream fos = new FileOutputStream(new File("filename.txt"));
-            FileChannel channel = fos.getChannel()
-    ) {
+    try (// open channel
+        final FileOutputStream fos = new FileOutputStream(new File("filename.txt"));
+        FileChannel channel = fos.getChannel()) {
         // write buffer to channel
         while (buffer.hasRemaining()) {
             channel.write(buffer);
@@ -114,10 +112,9 @@ DEMO 参考： [String2FileWithJavaNioExample](https://github.com/zzycreate/java
     String data = "The second line" + System.getProperty("line.separator") + 
                           "The second line" + System.getProperty("line.separator");
     final ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
-    try(
-            final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
-            FileChannel channel = file.getChannel()
-            ){
+    try(final RandomAccessFile file = new RandomAccessFile("filename.txt", "rw");
+        FileChannel channel = file.getChannel()){
+        
         while (buffer.hasRemaining()){
             channel.write(buffer);
         }
@@ -270,8 +267,7 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 使用 lines 逐行读取字符串：
 
 ```
-    try (Stream<String> lines = Files.lines(Paths.get("filename.txt"), StandardCharsets.UTF_8)
-    ) {
+    try (Stream<String> lines = Files.lines(Paths.get("filename.txt"), StandardCharsets.UTF_8)) {
         StringBuilder content = new StringBuilder();
         lines.forEach(s -> content.append(s).append(SEPARATOR));
         return content.toString();
@@ -339,10 +335,24 @@ DEMO 参考： [File2StringWithCommonsExample](https://github.com/zzycreate/java
 使用 FileReader 读取文件，使用 StringWriter 将流中的内容输出出来:
 
 ```
-    try (FileReader fileReader = new FileReader(FILE_NAME_INPUT);
+    try (FileReader fileReader = new FileReader("filename.txt");
          StringWriter stringWriter = new StringWriter()) {
         IOUtils.copy(fileReader, stringWriter);
         return stringWriter.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+#### 使用 commons-io 的 FileUtils
+
+commons-io 的 FileUtils 提供了文件相关的工具方法， 使用 FileUtils.readByFileUtilsReadFileToString 读取文件内容
+
+DEMO 参考： [File2StringWithCommonsExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithCommonsExample.java)
+
+```
+    try {
+        return FileUtils.readFileToString(new File("filename.txt"), StandardCharsets.UTF_8);
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -384,12 +394,10 @@ DEMO 参考： [File2FileWithNioExample](https://github.com/zzycreate/java-conve
 
 
 ```
-    try (
-            FileInputStream input = new FileInputStream(FILE_NAME_INPUT);
-            FileOutputStream output = new FileOutputStream(FILE_NAME_OUTPUT);
-            ReadableByteChannel from = input.getChannel();
-            WritableByteChannel to = output.getChannel()
-    ) {
+    try (FileInputStream input = new FileInputStream("filename.txt");
+         FileOutputStream output = new FileOutputStream("filename.txt");
+         ReadableByteChannel from = input.getChannel();
+         WritableByteChannel to = output.getChannel()) {
         ByteBuffer buffer = ByteBuffer.allocateDirect(16 * 1024);
         while (from.read(buffer) != -1) {
             // Prepare the buffer to be drained
