@@ -4,9 +4,9 @@ import io.github.zzycreate.example.file.file2string.File2StringWithGuavaExample;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 import static io.github.zzycreate.example.file.Constant.LINE1;
 import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.READER_CONTENT;
 import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 
 /**
@@ -18,7 +18,7 @@ public class File2StringWithGuavaExampleTest {
     @Test
     public void testReadByGuavaSources() {
         String content = File2StringWithGuavaExample.readByGuavaSources();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
     @Test

@@ -4,7 +4,7 @@ import io.github.zzycreate.example.file.file2string.File2StringWithScannerExampl
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.github.zzycreate.example.file.Constant.READER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 
 /**
  * @author zzycreate
@@ -15,7 +15,7 @@ public class File2StringWithScannerExampleTest {
     @Test
     public void testReadByScanner() {
         String content = File2StringWithScannerExample.readByScanner();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
 }
