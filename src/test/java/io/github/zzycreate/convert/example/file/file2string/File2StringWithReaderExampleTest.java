@@ -5,6 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.file.Constant.LINE1;
+import static io.github.zzycreate.example.file.Constant.LINE2;
+import static io.github.zzycreate.example.file.Constant.SEPARATOR;
 
 /**
  * @author zzycreate
@@ -16,6 +19,12 @@ public class File2StringWithReaderExampleTest {
     public void testReadByBufferedReader() {
         String content = File2StringWithReaderExample.readByBufferedReader();
         Assert.assertEquals(CONTENT, content);
+    }
+
+    @Test
+    public void testReadLinesByBufferedReader() {
+        String content = File2StringWithReaderExample.readLinesByBufferedReader();
+        Assert.assertEquals(LINE1 + SEPARATOR + LINE2, content);
     }
 
     @Test

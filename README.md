@@ -285,7 +285,7 @@ DEMO 参考： [File2StringWithScannerExample](https://github.com/zzycreate/java
 
 
 ```
-    try (Scanner scanner = new Scanner(new File(FILE_NAME_INPUT), "UTF-8")) {
+    try (Scanner scanner = new Scanner(new File("filename.txt"), "UTF-8")) {
         return scanner.useDelimiter("\\A").next();
     } catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -310,6 +310,14 @@ DEMO 参考： [File2StringWithReaderExample](https://github.com/zzycreate/java-
             stringBuilder.append(line).append(SEPARATOR);
         }
         return stringBuilder.toString();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+```
+    try (BufferedReader reader = new BufferedReader(new FileReader("filename.txt"))) {
+        return reader.lines().collect(Collectors.joining(System.getProperty("line.separator"));
     } catch (IOException e) {
         e.printStackTrace();
     }
