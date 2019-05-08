@@ -279,7 +279,8 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
 #### 使用 Scanner 
 
 Scanner 默认的缓冲大小为 1024, 可以读取文件，但是读取空文件的时候会出现异常，见 [Scanner的讨论](https://stackoverflow
-.com/questions/326390/how-do-i-create-a-java-string-from-the-contents-of-a-file)
+.com/questions/326390/how-do-i-create-a-java-string-from-the-contents-of-a-file)  
+Scanner 使用正则表达式 `\A.` 匹配开始节点。 
 
 DEMO 参考： [File2StringWithScannerExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithScannerExample.java)
 
