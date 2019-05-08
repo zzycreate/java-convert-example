@@ -409,7 +409,7 @@ Java NIO 的 Channel 和 IO 流的对比：
 2. 通道可以异步读写。
 3. 通道总是基于缓冲区Buffer来读写。
 
-Buffer 及其子类不是县城安全的
+Buffer 及其子类不是线程安全的
 
 Buffer 的属性：
 

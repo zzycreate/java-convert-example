@@ -18,7 +18,7 @@ import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
  * 2. 通道可以异步读写。
  * 3. 通道总是基于缓冲区Buffer来读写。
  * <p>
- * Buffer 及其子类不是县城安全的
+ * Buffer 及其子类不是线程安全的
  * <p>
  * Buffer 的属性：
  * 1. capacity - 缓存容量
