@@ -374,6 +374,29 @@ DEMO 参考： [File2StringWithCommonsExample](https://github.com/zzycreate/java
     }
 ```
 
+#### 使用 guava 的 Files
+
+直接使用 guava 的 Files 转换为 ByteSource/CharSource 然后直接 read 成字符串:
+
+```
+    try {
+        // Resources.asCharSource(new URL(""), StandardCharsets.UTF_8).read();
+        return Files.asCharSource(new File("filename.txt"), StandardCharsets.UTF_8).read();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
+或者使用 readLines 逐行读取：
+
+```
+    try {
+        return String.join(System.getProperty("line.separator"), Files.readLines(new File("filename.txt"), StandardCharsets.UTF_8));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+```
+
 ### File -> File (copy File)
 
 #### 使用 NIO 的 Channel
