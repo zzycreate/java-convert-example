@@ -315,6 +315,8 @@ DEMO 参考： [File2StringWithReaderExample](https://github.com/zzycreate/java-
     }
 ```
 
+使用 BufferReader 的 lines 方法逐行读取数据：
+
 ```
     try (BufferedReader reader = new BufferedReader(new FileReader("filename.txt"))) {
         return reader.lines().collect(Collectors.joining(System.getProperty("line.separator"));
