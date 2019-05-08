@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER1;
@@ -31,7 +31,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER1)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -46,7 +46,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER2)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -61,7 +61,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_PRINT_WRITER3)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -81,7 +81,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -90,7 +90,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_FILE_WRITER)));
-            Assert.assertEquals(WRITER_CONTENT + WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT + CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -111,7 +111,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -120,7 +120,7 @@ public class String2FileWithWriterExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_BUFFERED_WRITER)));
-            Assert.assertEquals(WRITER_CONTENT + WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT + CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }

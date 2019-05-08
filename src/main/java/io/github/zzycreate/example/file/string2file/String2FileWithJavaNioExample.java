@@ -16,7 +16,7 @@ import java.util.List;
 
 import static io.github.zzycreate.example.file.Constant.LINE1;
 import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 
 /**
  * 向文件中写入内容
@@ -62,7 +62,7 @@ public class String2FileWithJavaNioExample {
     public static void writeByNioFileChannelViaFileOutputStream() {
 
         // use ByteBuffer wrap data
-        final ByteBuffer buffer = ByteBuffer.wrap(WRITER_CONTENT.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap(CONTENT.getBytes());
         // try-with-resources auto close the channel
         try (
                 // open channel
@@ -85,7 +85,7 @@ public class String2FileWithJavaNioExample {
      */
     public static void writeByNioFileChannelViaRandomAccessFile() {
 
-        final ByteBuffer buffer = ByteBuffer.wrap(WRITER_CONTENT.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap(CONTENT.getBytes());
         try(
                 final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
                 FileChannel channel = file.getChannel()

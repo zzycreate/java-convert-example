@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.READER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 import static io.github.zzycreate.example.file.file2file.File2FileWithNioExample.FILE_NAME_OUTPUT;
 
 /**
@@ -24,7 +24,7 @@ public class File2FileWithNioExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME_OUTPUT)));
-            Assert.assertEquals(READER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }

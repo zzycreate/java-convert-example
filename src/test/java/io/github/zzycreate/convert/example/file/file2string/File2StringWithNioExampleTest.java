@@ -4,7 +4,7 @@ import io.github.zzycreate.example.file.file2string.File2StringWithNioExample;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.github.zzycreate.example.file.Constant.READER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 
 /**
  * @author zzycreate
@@ -15,19 +15,19 @@ public class File2StringWithNioExampleTest {
     @Test
     public void testReadByJava7FilesInReadAllBytes() {
         String content = File2StringWithNioExample.readByJava7FilesInReadAllBytes();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
     @Test
     public void testReadLinesByJava7FilesInReadAllLines() {
         String content = File2StringWithNioExample.readLinesByJava7FilesInReadAllLines();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
     @Test
     public void testReadLinesByJava7FilesInLines() {
         String content = File2StringWithNioExample.readLinesByJava7FilesInLines();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
 }

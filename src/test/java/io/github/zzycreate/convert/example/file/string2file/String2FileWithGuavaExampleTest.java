@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.WRITER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 import static io.github.zzycreate.example.file.string2file.String2FileWithGuavaExample.FILE_NAME;
 
 /**
@@ -24,7 +24,7 @@ public class String2FileWithGuavaExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }
@@ -42,7 +42,7 @@ public class String2FileWithGuavaExampleTest {
 
         try {
             String text = new String(Files.readAllBytes(Paths.get(FILE_NAME)));
-            Assert.assertEquals(WRITER_CONTENT, text);
+            Assert.assertEquals(CONTENT, text);
         } catch (IOException e) {
             Assert.assertNull(e);
         }

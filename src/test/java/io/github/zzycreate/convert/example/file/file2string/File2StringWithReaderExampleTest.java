@@ -4,7 +4,7 @@ import io.github.zzycreate.example.file.file2string.File2StringWithReaderExample
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.github.zzycreate.example.file.Constant.READER_CONTENT;
+import static io.github.zzycreate.example.file.Constant.CONTENT;
 
 /**
  * @author zzycreate
@@ -15,13 +15,13 @@ public class File2StringWithReaderExampleTest {
     @Test
     public void testReadByBufferedReader() {
         String content = File2StringWithReaderExample.readByBufferedReader();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
     @Test
     public void testReadByFileInputStream() {
         String content = File2StringWithReaderExample.readByFileInputStream();
-        Assert.assertEquals(READER_CONTENT, content);
+        Assert.assertEquals(CONTENT, content);
     }
 
 }
