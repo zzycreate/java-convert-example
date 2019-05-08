@@ -21,7 +21,8 @@ public class File2StringWithReaderExample {
      * @return 文件数据
      */
     public static String readByBufferedReader() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(FILE_NAME_INPUT), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FILE_NAME_INPUT), StandardCharsets.UTF_8))) {
             String line;
             StringBuilder stringBuilder = new StringBuilder();
             while ((line = reader.readLine()) != null) {

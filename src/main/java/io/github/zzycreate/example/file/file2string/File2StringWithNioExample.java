@@ -58,8 +58,7 @@ public class File2StringWithNioExample {
      * @return 文件内容
      */
     public static String readLinesByJava7FilesInLines() {
-        try (Stream<String> lines = Files.lines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8)
-        ) {
+        try (Stream<String> lines = Files.lines(Paths.get(FILE_NAME_INPUT), StandardCharsets.UTF_8)) {
             StringBuilder content = new StringBuilder();
             lines.forEach(s -> content.append(s).append(SEPARATOR));
             return content.toString();

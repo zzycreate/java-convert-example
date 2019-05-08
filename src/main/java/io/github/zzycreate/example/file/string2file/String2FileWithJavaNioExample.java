@@ -64,11 +64,9 @@ public class String2FileWithJavaNioExample {
         // use ByteBuffer wrap data
         final ByteBuffer buffer = ByteBuffer.wrap(CONTENT.getBytes());
         // try-with-resources auto close the channel
-        try (
-                // open channel
-                final FileOutputStream fos = new FileOutputStream(new File(FILE_NAME_BY_CHANNEL1));
-                FileChannel channel = fos.getChannel()
-        ) {
+        try (// open channel
+             final FileOutputStream fos = new FileOutputStream(new File(FILE_NAME_BY_CHANNEL1));
+             FileChannel channel = fos.getChannel()) {
             // write buffer to channel
             while (buffer.hasRemaining()) {
                 channel.write(buffer);
@@ -86,11 +84,9 @@ public class String2FileWithJavaNioExample {
     public static void writeByNioFileChannelViaRandomAccessFile() {
 
         final ByteBuffer buffer = ByteBuffer.wrap(CONTENT.getBytes());
-        try(
-                final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
-                FileChannel channel = file.getChannel()
-                ){
-            while (buffer.hasRemaining()){
+        try (final RandomAccessFile file = new RandomAccessFile(FILE_NAME_BY_CHANNEL2, "rw");
+             FileChannel channel = file.getChannel()) {
+            while (buffer.hasRemaining()) {
                 channel.write(buffer);
             }
 
