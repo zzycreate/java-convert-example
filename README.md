@@ -276,6 +276,22 @@ DEMO 参考： [File2StringWithNioExample](https://github.com/zzycreate/java-con
     }
 ```
 
+#### 使用 Scanner 
+
+Scanner 默认的缓冲大小为 1024, 可以读取文件，但是读取空文件的时候会出现异常，见 [Scanner的讨论](https://stackoverflow
+.com/questions/326390/how-do-i-create-a-java-string-from-the-contents-of-a-file)
+
+DEMO 参考： [File2StringWithScannerExample](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/file/file2string/File2StringWithScannerExample.java)
+
+
+```
+    try (Scanner scanner = new Scanner(new File(FILE_NAME_INPUT), "UTF-8")) {
+        return scanner.useDelimiter("\\A").next();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+```
+
 #### 使用 BufferedReader **(推荐)**
 
 BufferedReader 缓冲流，可以高效的读取文件，使用 Reader 和 InputStream 组合可以设置各种配置。  
