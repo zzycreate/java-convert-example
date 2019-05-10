@@ -1,5 +1,6 @@
 package io.github.zzycreate.example.datetime;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +17,7 @@ import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE
 public class DateExample {
 
     /**
-     * java.util.Date 转换成 String
+     * java.util.Date -> String
      * 格式化日期
      * 使用 SimpleDateFormat 进行日期格式化
      * <p>
@@ -41,7 +42,7 @@ public class DateExample {
      * ' - 文字定界符 (eg: Delimiter)
      * " - 单引号 (eg: `)
      *
-     * @param date    jdk1.1 日期
+     * @param date    jdk1.1 Date
      * @param pattern 转换的格式
      * @return 日期时间文本
      */
@@ -51,16 +52,37 @@ public class DateExample {
     }
 
     /**
+     * java.util.Date -> String
      * 使用 jdk8 的 DateTimeFormatter 进行日期格式化
      * java.util.Date 需要转换为 java.time.ZonedDateTime 才能使用 DateTimeFormatter 格式化时间
      *
-     * @param date              jdk1.1 日期
+     * @param date              jdk1.1 Date
      * @param dateTimeFormatter jdk8 日期时间格式化对象
      * @return 日期时间文本
      */
     public static String toString(Date date, DateTimeFormatter dateTimeFormatter) {
         ZonedDateTime zonedDateTime = date.toInstant().atZone(DEFAULT_ZONE_ID);
         return zonedDateTime.format(dateTimeFormatter);
+    }
+
+    /**
+     * java.util.Date -> long
+     *
+     * @param date jdk1.1 Date
+     * @return 时间戳毫秒数
+     */
+    public static long toTimestamp(Date date) {
+        return date.getTime();
+    }
+
+    /**
+     * java.util.Date -> java.sql.Timestamp
+     *
+     * @param date jdk1.1 Date
+     * @return sql 时间戳对象
+     */
+    public static Timestamp toSqlTimstamp(Date date) {
+        return new Timestamp(date.getTime());
     }
 
 }

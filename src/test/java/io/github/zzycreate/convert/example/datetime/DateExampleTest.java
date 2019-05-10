@@ -4,6 +4,7 @@ import io.github.zzycreate.example.datetime.DateExample;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_BASIC_ISO_DATE_STR;
@@ -22,6 +23,8 @@ import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_WEEK_DATE_STR;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_ZONED_DATE_TIME_STR;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_RFC_1123_DATE_TIME_STR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIMESTAMP;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIMESTAMP_LONG;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_USER_DATE_TIME;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_USER_PATTERN;
 
@@ -70,6 +73,13 @@ public class DateExampleTest {
                 DateExample.toString(DEFAULT_DATE, DateTimeFormatter.BASIC_ISO_DATE));
         Assert.assertEquals(DEFAULT_RFC_1123_DATE_TIME_STR,
                 DateExample.toString(DEFAULT_DATE, DateTimeFormatter.RFC_1123_DATE_TIME));
+    }
+
+    @Test
+    public void testToTimestamp() {
+        Assert.assertEquals(DEFAULT_TIMESTAMP_LONG, DateExample.toTimestamp(DEFAULT_DATE));
+
+        Assert.assertEquals(DEFAULT_TIMESTAMP.getTime(), DateExample.toSqlTimstamp(DEFAULT_DATE).getTime());
     }
 
 }
