@@ -1,10 +1,12 @@
-package io.github.zzycreate.example.file;
+package io.github.zzycreate.example.constant;
 
 /**
+ * 文件操作常量
+ *
  * @author zzycreate
  * @date 19-5-5
  */
-public interface Constant {
+public interface FileConstant {
 
     String LINE1 = "The first line";
     String LINE2 = "The second line";

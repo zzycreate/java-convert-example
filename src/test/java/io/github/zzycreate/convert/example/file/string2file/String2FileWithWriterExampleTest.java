@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_BUFFERED_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_FILE_WRITER;
 import static io.github.zzycreate.example.file.string2file.String2FileWithWriterExample.FILE_NAME_PRINT_WRITER1;

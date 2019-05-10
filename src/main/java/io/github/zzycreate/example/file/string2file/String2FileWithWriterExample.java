@@ -14,10 +14,10 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
-import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.LINE1;
+import static io.github.zzycreate.example.constant.FileConstant.LINE2;
+import static io.github.zzycreate.example.constant.FileConstant.SEPARATOR;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
 
 /**
  * 使用 Writer 向文件中写入内容

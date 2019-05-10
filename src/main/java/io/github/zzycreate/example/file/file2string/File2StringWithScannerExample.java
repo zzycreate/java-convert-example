@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
+import static io.github.zzycreate.example.constant.FileConstant.FILE_NAME_INPUT;
 
 /**
  * @author zzycreate

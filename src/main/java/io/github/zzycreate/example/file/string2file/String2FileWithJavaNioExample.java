@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.LINE1;
+import static io.github.zzycreate.example.constant.FileConstant.LINE2;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
 
 /**
  * 向文件中写入内容

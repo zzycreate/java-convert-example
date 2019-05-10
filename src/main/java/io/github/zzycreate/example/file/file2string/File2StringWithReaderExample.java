@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.constant.FileConstant.FILE_NAME_INPUT;
+import static io.github.zzycreate.example.constant.FileConstant.SEPARATOR;
 
 /**
  * @author zzycreate

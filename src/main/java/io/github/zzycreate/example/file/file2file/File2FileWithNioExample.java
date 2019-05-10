@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
-import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
+import static io.github.zzycreate.example.constant.FileConstant.FILE_NAME_INPUT;
 
 /**
  * 标准的IO编程接口是面向字节流和字符流的。而NIO是面向通道和缓冲区的，数据总是从通道中读到buffer缓冲区内，或者从buffer写入到通道中。

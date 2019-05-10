@@ -4,10 +4,10 @@ import io.github.zzycreate.example.file.file2string.File2StringWithReaderExample
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.github.zzycreate.example.file.Constant.CONTENT;
-import static io.github.zzycreate.example.file.Constant.LINE1;
-import static io.github.zzycreate.example.file.Constant.LINE2;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.LINE1;
+import static io.github.zzycreate.example.constant.FileConstant.LINE2;
+import static io.github.zzycreate.example.constant.FileConstant.SEPARATOR;
 
 /**
  * @author zzycreate

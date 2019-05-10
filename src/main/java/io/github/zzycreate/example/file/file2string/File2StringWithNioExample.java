@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static io.github.zzycreate.example.file.Constant.FILE_NAME_INPUT;
-import static io.github.zzycreate.example.file.Constant.SEPARATOR;
+import static io.github.zzycreate.example.constant.FileConstant.FILE_NAME_INPUT;
+import static io.github.zzycreate.example.constant.FileConstant.SEPARATOR;
 
 /**
  * @author zzycreate

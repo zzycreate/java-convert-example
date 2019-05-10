@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
 
 /**
  * 向文件中写入内容

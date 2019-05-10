@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static io.github.zzycreate.example.file.Constant.CONTENT;
+import static io.github.zzycreate.example.constant.FileConstant.CONTENT;
 import static io.github.zzycreate.example.file.file2file.File2FileWithNioExample.FILE_NAME_OUTPUT;
 
 /**
