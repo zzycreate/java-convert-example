@@ -31,6 +31,7 @@ public interface DateTimeConstant {
     String DEFAULT_DATE_STR = "2019-05-10";
     String DEFAULT_TIME_STR = "12:13:14";
     String DEFAULT_ZONE_STR = "Asia/Shanghai";
+    String DEFAULT_USER_PATTERN = "yyyy-MM-dd hh:mm:ss";
 
     LocalDateTime DEFAULT_LOCAL_DATE_TIME = LocalDateTime.of(DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DAY, DEFAULT_HOUR,
             DEFAULT_MINUTE, DEFAULT_SECOND);

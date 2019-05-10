@@ -1,7 +1,11 @@
 package io.github.zzycreate.example.datetime;
 
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE_ID;
 
 /**
  * java.util.Date
@@ -39,11 +43,24 @@ public class DateExample {
      *
      * @param date    jdk1.1 日期
      * @param pattern 转换的格式
-     * @return 日期文本
+     * @return 日期时间文本
      */
     public static String toString(Date date, String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         return sdf.format(date);
+    }
+
+    /**
+     * 使用 jdk8 的 DateTimeFormatter 进行日期格式化
+     * java.util.Date 需要转换为 java.time.ZonedDateTime 才能使用 DateTimeFormatter 格式化时间
+     *
+     * @param date              jdk1.1 日期
+     * @param dateTimeFormatter jdk8 日期时间格式化对象
+     * @return 日期时间文本
+     */
+    public static String toString(Date date, DateTimeFormatter dateTimeFormatter) {
+        ZonedDateTime zonedDateTime = date.toInstant().atZone(DEFAULT_ZONE_ID);
+        return zonedDateTime.format(dateTimeFormatter);
     }
 
 }
