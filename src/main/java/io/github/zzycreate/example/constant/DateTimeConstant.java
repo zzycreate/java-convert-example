@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -30,7 +31,8 @@ public interface DateTimeConstant {
 
     String DEFAULT_DATE_STR = "2019-05-10";
     String DEFAULT_TIME_STR = "13:14:15";
-    String DEFAULT_ZONE_STR = "Asia/Shanghai";
+    String DEFAULT_ZONE_ID_STR = "Asia/Shanghai";
+    String DEFAULT_ZONE_OFFSET_STR = "+08:00";
     String USER_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
@@ -41,7 +43,11 @@ public interface DateTimeConstant {
     /**
      * 默认时区：东八区
      */
-    ZoneId DEFAULT_ZONE_ID = ZoneId.of(DEFAULT_ZONE_STR);
+    ZoneId DEFAULT_ZONE_ID = ZoneId.of(DEFAULT_ZONE_ID_STR);
+    /**
+     * 默认时区偏移量：+08:00
+     */
+    ZoneOffset DEFAULT_ZONE_OFFSET = ZoneOffset.of(DEFAULT_ZONE_OFFSET_STR);
     /**
      * 默认时区（东八区）的ZonedDateTime
      */

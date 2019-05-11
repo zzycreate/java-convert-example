@@ -4,6 +4,7 @@ import io.github.zzycreate.example.datetime.DateTimeStringExample;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
@@ -23,6 +24,12 @@ public class DateTimeStringExampleTest {
         Assert.assertEquals(Long.valueOf(DEFAULT_TIMESTAMP_LONG),
                 Optional.ofNullable(date).map(Date::getTime).orElse(0L));
 
+    }
+
+    @Test
+    public void testToDateWithJdk8() {
+        Date date = DateTimeStringExample.toDateWithLocalDateTime(DEFAULT_USER_DATE_TIME, DateTimeFormatter.ofPattern(USER_PATTERN));
+        Assert.assertEquals(DEFAULT_TIMESTAMP_LONG, date.getTime());
     }
 
 }

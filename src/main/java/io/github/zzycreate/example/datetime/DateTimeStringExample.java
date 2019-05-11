@@ -2,7 +2,11 @@ package io.github.zzycreate.example.datetime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE_OFFSET;
 
 /**
  * @author zzycreate
@@ -25,6 +29,18 @@ public class DateTimeStringExample {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 使用 jdk8 的方式进行日期时间字符串的格式化
+     *
+     * @param str               字符串
+     * @param dateTimeFormatter 格式
+     * @return Date
+     */
+    public static Date toDateWithLocalDateTime(String str, DateTimeFormatter dateTimeFormatter) {
+        LocalDateTime localDateTime = LocalDateTime.parse(str, dateTimeFormatter);
+        return Date.from(localDateTime.toInstant(DEFAULT_ZONE_OFFSET));
     }
 
 }
