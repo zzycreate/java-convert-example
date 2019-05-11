@@ -4,7 +4,6 @@ import io.github.zzycreate.example.datetime.DateExample;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_BASIC_ISO_DATE_STR;
@@ -23,10 +22,10 @@ import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_WEEK_DATE_STR;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ISO_ZONED_DATE_TIME_STR;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_RFC_1123_DATE_TIME_STR;
-import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIMESTAMP;
-import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIMESTAMP_LONG;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_INSTANT_TIMESTAMP;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_INSTANT_TIMESTAMP_LONG;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_USER_DATE_TIME;
-import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_USER_PATTERN;
+import static io.github.zzycreate.example.constant.DateTimeConstant.USER_PATTERN;
 
 /**
  * @author zzycreate
@@ -38,11 +37,11 @@ public class DateExampleTest {
     public void testDateToString() {
         // use SimpleDateFormat
         Assert.assertEquals(DEFAULT_USER_DATE_TIME,
-                DateExample.toString(DEFAULT_DATE, DEFAULT_USER_PATTERN));
+                DateExample.toString(DEFAULT_DATE, USER_PATTERN));
 
         // use DateTimeFormatter
         Assert.assertEquals(DEFAULT_USER_DATE_TIME,
-                DateExample.toString(DEFAULT_DATE, DateTimeFormatter.ofPattern(DEFAULT_USER_PATTERN)));
+                DateExample.toString(DEFAULT_DATE, DateTimeFormatter.ofPattern(USER_PATTERN)));
         Assert.assertEquals(DEFAULT_ISO_LOCAL_DATE_STR,
                 DateExample.toString(DEFAULT_DATE, DateTimeFormatter.ISO_LOCAL_DATE));
         Assert.assertEquals(DEFAULT_ISO_OFFSET_DATE_STR,
@@ -77,9 +76,9 @@ public class DateExampleTest {
 
     @Test
     public void testToTimestamp() {
-        Assert.assertEquals(DEFAULT_TIMESTAMP_LONG, DateExample.toTimestamp(DEFAULT_DATE));
+        Assert.assertEquals(DEFAULT_INSTANT_TIMESTAMP_LONG, DateExample.toTimestamp(DEFAULT_DATE));
 
-        Assert.assertEquals(DEFAULT_TIMESTAMP.getTime(), DateExample.toSqlTimstamp(DEFAULT_DATE).getTime());
+        Assert.assertEquals(DEFAULT_INSTANT_TIMESTAMP.getTime(), DateExample.toSqlTimstamp(DEFAULT_DATE).getTime());
     }
 
 }
