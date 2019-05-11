@@ -472,6 +472,22 @@ DEMO 参考： [File2FileWithNioExample](https://github.com/zzycreate/java-conve
 `java.sql.Timestamp` 等是 `jdk 1.1` 中常用的日期时间类，`java.util.Date` 代表了时间，`java.util.Calendar` 代表了日期，`java.text.DateFormat` 
 用于格式化时间，`java.sql.Date` 是 `java.util.Date` 的包装类，代表了数据库中的 DATE，`java.sql.Timestamp` 代表了数据库的 TIMESTAMP。
 
+SimpleDateFormat 时间格式化常用字符及含义：
+
+| 字母	| 含义	| 示例    |
+| ---   | ---   | ---   |
+| G | 纪元 | 在 Locale.CHINA语言环境下，如 '公元';<br/>在Locale.US语言环境下，如 'AD' |
+| y	| 年份。一般用 yy 表示两位年份，yyyy 表示 4 位年份	| 使用 yy 表示的年扮，如 11；<br/>使用 yyyy 表示的年份，如 2011 | 
+| M	| 月份。一般用 MM 表示月份，如果使用 MMM，则会根据语言环境显示不同语言的月份	| 使用 MM 表示的月份，如 05；<br/>使用 MMM 表示月份，在 Locale.CHINA语言环境下，如“十月”；<br/>在Locale.US语言环境下，如 Oct | 
+| d	| 月份中的天数。一般用 dd 表示天数	| 使用 dd 表示的天数，如 10 |
+| D	| 年份中的天数。表示当天是当年的第几天， 用 D 表示	| 使用 D 表示的年份中的天数，如 295 |
+| E	| 星期几。用 E 表示，会根据语言环境的不同， 显示不同语言的星期几	| 使用 E 表示星期几，<br/>在 Locale.CHINA 语言环境下，如“星期四”；<br/>在 Locale.US 语言环境下，如 Thu |
+| H	| 一天中的小时数（0~23)。一般用 HH 表示小时数	| 使用 HH 表示的小时数，如 18 |
+| h	| 一天中的小时数（1~12)。一般使用hh表 示小时数	| 使用 hh 表示的小时数，如 10 (注意 10 有可能是 10 点，也可能是 22 点）
+| m	| 分钟数。一般使用 mm 表示分钟数	| 使用 mm 表示的分钟数，如 29 |
+| s	| 秒数。一般使用 ss 表示秒数	| 使用 ss 表示的秒数，如 38 |
+| S	| 毫秒数。一般使用 SSS 表示毫秒数	| 使用 SSS 表示的毫秒数，如 156 |
+
 `jdk 1.1` 的日期时间的设计不够好，有很多致命的问题：
 
 1. Java的日期/时间类的定义并不一致，在java.util和java.sql的包中都有日期类，此外用于格式化和解析的类在java.text包中定义。
