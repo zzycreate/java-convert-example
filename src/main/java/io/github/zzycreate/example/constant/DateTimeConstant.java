@@ -22,12 +22,15 @@ public interface DateTimeConstant {
     int DEFAULT_MONTH = 5;
     String DEFAULT_DAY_STR = "10";
     int DEFAULT_DAY = 10;
+    int DFFAULT_DAY_OF_YEAR = 130;
+
     String DEFAULT_HOUR_STR = "13";
     int DEFAULT_HOUR = 13;
     String DEFAULT_MINUTE_STR = "14";
     int DEFAULT_MINUTE = 14;
     String DEFAULT_SECOND_STR = "15";
     int DEFAULT_SECOND = 15;
+    int DEFAULT_SECOND_OF_DAY = 47655;
 
     String DEFAULT_DATE_STR = "2019-05-10";
     String DEFAULT_TIME_STR = "13:14:15";
