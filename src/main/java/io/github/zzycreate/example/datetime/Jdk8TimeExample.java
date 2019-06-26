@@ -65,6 +65,22 @@ public class Jdk8TimeExample {
         LocalDateTime dateTime = zonedDateTime.toLocalDateTime();
         LocalDate date = dateTime.toLocalDate();
         LocalTime time = dateTime.toLocalTime();
+
+        int year = date.getYear();
+        Month month = date.getMonth();
+        int monthValue = date.getMonthValue();
+        int dayOfYear = date.getDayOfYear();
+        int dayOfMonth = date.getDayOfMonth();
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+        int hour = time.getHour();
+        int minute = time.getMinute();
+        int second = time.getSecond();
+        int nano = time.getNano();
+
+        ZoneId zone = zonedDateTime.getZone();
+        ZoneOffset offset = zonedDateTime.getOffset();
+
     }
 
     public static void compare() {
