@@ -1,9 +1,31 @@
 package io.github.zzycreate.example.datetime;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import static io.github.zzycreate.example.constant.DateTimeConstant.*;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_DATE_STR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_DAY;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_HOUR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_MINUTE;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_MONTH;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_SECOND;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_SECOND_OF_DAY;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIME_STR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_YEAR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE_ID_STR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE_OFFSET_STR;
+import static io.github.zzycreate.example.constant.DateTimeConstant.DFFAULT_DAY_OF_YEAR;
 
 /**
  * JDK8 的时间类型转换
@@ -91,6 +113,32 @@ public class Jdk8TimeExample {
         System.out.println(String.format("dateTime is before now: %s", dateTime.isBefore(now)));
         System.out.println(String.format("dateTime is before now: %s", dateTime.isAfter(now)));
         System.out.println(String.format("date is leap year: %s", dateTime.toLocalDate().isLeapYear()));
+    }
+
+    public static void change() {
+        LocalDate date = LocalDate.now();
+        LocalDate minus1 = date.minus(1, ChronoUnit.DAYS);
+        LocalDate date1 = date.minusDays(1);
+        LocalDate date2 = date.minusMonths(2);
+        LocalDate plus1 = date.plus(1, ChronoUnit.WEEKS);
+        LocalDate date3 = date.plusYears(1);
+
+        LocalTime time = LocalTime.now();
+        LocalTime minus2 = time.minus(1, ChronoUnit.SECONDS);
+        LocalTime time1 = time.minusSeconds(2);
+        LocalTime time2 = time.minusMinutes(30);
+        LocalTime plus2 = time.plus(3, ChronoUnit.HALF_DAYS);
+        LocalTime time3 = time.plusHours(2);
+
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        LocalDateTime minus = dateTime.minus(10, ChronoUnit.SECONDS);
+        LocalDateTime dateTime1 = dateTime.minusSeconds(10L);
+        LocalDateTime dateTime2 = dateTime.minusDays(10L);
+
+        LocalDateTime plus = dateTime.plus(10, ChronoUnit.SECONDS);
+        LocalDateTime dateTime3 = dateTime.plusMinutes(10L);
+        LocalDateTime dateTime4 = dateTime.plusMonths(5);
     }
 
 }
