@@ -434,8 +434,8 @@ Buffer 的属性：
 Buffer 的方法：
 
 1. mark(): mark 设置成 position
-3. clear(): mark 设置为 -1 清除标记, position 设置为 0, limit 设置为 capacity, **数据写入 Buffer 前调用**
-4. flip(): limit 设置成 position 当前位置作为上限, position 设置为 0, **Buffer 读取数据前调用**
+3. clear(): mark 设置为 -1 清除标记, position 设置为 0, limit 设置为 capacity, **数据写入 Buffer 前调用**, 或者说是 Channel 读取之前调用
+4. flip(): limit 设置成 position 当前位置作为上限, position 设置为 0, **Buffer 读取数据前调用**，或者说是 Channel 写入之前调用
 5. rewind(): position 设置为 0, limit 不变, **数据重新写入 Buffer 前调用**
 
 使用不同的 Channel 同时操作同一个 Buffer 可以实现文件的复制。
