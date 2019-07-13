@@ -468,9 +468,13 @@ DEMO 参考： [File2FileWithNioExample](https://github.com/zzycreate/java-conve
 
 ## 日期时间
 
-`jdk 1.1` 就开始提供了基础的日期时间相关的功能，`java.util.Date`、`java.util.Calendar`、`java.text.DateFormat`、`java.sql.Date`、
+### java 的时间操作 API
+
+#### java.util 包的时间操作
+
+`jdk 1.1` 就开始提供了基础的日期时间相关的功能，`java.util.Date`、`java.util.Calendar`、`java.text.DateFormat`、`java.sql.Date`、`java.sql.Time`、
 `java.sql.Timestamp` 等是 `jdk 1.1` 中常用的日期时间类，`java.util.Date` 代表了时间，`java.util.Calendar` 代表了日期，`java.text.DateFormat` 
-用于格式化时间，`java.sql.Date` 是 `java.util.Date` 的包装类，代表了数据库中的 DATE，`java.sql.Timestamp` 代表了数据库的 TIMESTAMP。
+用于格式化时间，`java.sql.Date` 是 `java.util.Date` 的包装类，代表了数据库中的 DATE，`java.sql.Time` 代表数据库的时间（不含日期）, `java.sql.Timestamp` 代表了数据库的 TIMESTAMP。
 
 SimpleDateFormat 时间格式化常用字符及含义：
 
@@ -488,7 +492,9 @@ SimpleDateFormat 时间格式化常用字符及含义：
 | s	| 秒数。一般使用 ss 表示秒数	| 使用 ss 表示的秒数，如 38 |
 | S	| 毫秒数。一般使用 SSS 表示毫秒数	| 使用 SSS 表示的毫秒数，如 156 |
 
-`jdk 1.1` 的日期时间的设计不够好，有很多致命的问题：
+`Date` 代表了一个特定的时间，可以精确到毫秒，也能表示年月日等日期概念。
+
+但 util 中的日期时间操作存在一些问题：
 
 1. Java的日期/时间类的定义并不一致，在java.util和java.sql的包中都有日期类，此外用于格式化和解析的类在java.text包中定义。
 2. java.util.Date同时包含日期和时间，而java.sql.Date仅包含日期，将其纳入java.sql包并不合理。另外这两个类都有相同的名字，这本身就是一个非常糟糕的设计。
@@ -496,7 +502,31 @@ SimpleDateFormat 时间格式化常用字符及含义：
 4. 所有的日期类都是可变的，因此他们都不是线程安全的，这是Java日期类最大的问题之一。
 5. 日期类并不提供国际化，没有时区支持，因此Java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。
 
+#### java.time 包的时间操作
+
+Java 8 新增的日期时间 API 遵循 JSR 310 设计规范，解决上述 API 中的缺陷。
+
+主要的操作对象有：
+
+1. java.time.LocalTime: 时间
+2. java.time.LocalDate: 日期
+3. java.time.LocalDateTime: 日期/时间
+4. java.time.ZoneId: 时区
+5. java.time.ZoneOffset: 时区偏移量
+6. java.time.ZonedDateTime: 带时区信息的日期/时间
+7. java.time.Instant: 时刻（时间戳）
+8. java.time.Duration java.time.Period: 时间段
+
+这些对象都是线程安全，且不可变，API 方法设计简单，转换容易，配合 `java.time.format.DateTimeFormatter` 可以很容易的进行格式化。
+
+以上这些对象的关联关系：
+
+1. LocalDateTime = LocalDate + LocalTime
+2. ZonedDateTime = LocalDateTime + ZoneId/ZoneOffset
+3. Instant = seconds + nano
+
 Java 8日期/时间API是JSR-310的实现，它的实现目标是克服旧的日期时间实现中所有的缺陷，新的日期/时间API的一些设计原则是：
+
 1. 不变性：新的日期/时间API中，所有的类都是不可变的，这对多线程环境有好处。
 2. 关注点分离：新的API将人可读的日期时间和机器时间（unix timestamp）明确分离，它为日期（Date）、时间（Time）、日期时间（DateTime）、时间戳（unix timestamp）以及时区定义了不同的类。
 3. 清晰：在所有的类中，方法都被明确定义用以完成相同的行为。举个例子，要拿到当前实例我们可以使用now()方法，在所有的类中都定义了format()和parse()
@@ -504,24 +534,153 @@ Java 8日期/时间API是JSR-310的实现，它的实现目标是克服旧的日
 4. 实用操作：所有新的日期/时间API类都实现了一系列方法用以完成通用的任务，如：加、减、格式化、解析、从日期/时间中提取单独部分，等等。
 5. 可扩展性：新的日期/时间API是工作在ISO-8601日历系统上的，但我们也可以将其应用在非IOS的日历上。
 
-### String 转日期时间
 
-### java.util.Date
+### java 1.1 日期/时间操作
 
-`java.util.Date` 是 jdk 1.1 中就有了基础对象，用于表示日期时间对象
+#### 对象构造
 
-#### Date -> String
+示例代码： [Jdk1DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/Jdk1DateExample.java)
 
-`java.util.Date` 转换成用于展示的字符串，依据要展示的格式进行日期时间的格式化。
 
-### Timestamp
+```
+    // 毫秒值
+    long timestamp = System.currentTimeMillis();
 
-### Instant 
+    // java.util.Date 除了一下两种构造方法，其他构造方法均已过期
+    Date date = new Date();
+    Date date1 = new Date(timestamp);
 
-### LocalDate/LocalTime/LocalDateTime
+    // sql date/time/timestamp 是针对SQL语言使用的，Date只有日期而没有时间，Time只有时间而没有日期
+    java.sql.Date sqlDate = new java.sql.Date(timestamp);
+    java.sql.Date sqlDate1 = new java.sql.Date(date1.getTime());
+    java.sql.Time sqlTime = new java.sql.Time(timestamp);
+    java.sql.Time sqlTime1 = new java.sql.Time(date1.getTime());
+    java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(timestamp);
+    java.sql.Timestamp sqlTimestamp1 = new java.sql.Timestamp(date1.getTime());
 
-### ZonedDate/ZonedTime/ZonedDateTime
+    // Calendar 代表日历, GregorianCalendar 代表公历
+    Calendar calendar = Calendar.getInstance();
+    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+```
 
-## steam流
+#### 对象取值
 
-## 文件
+示例代码： [Jdk1DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/Jdk1DateExample.java)
+
+```
+    long timestamp = System.currentTimeMillis();
+    Date date = new Date(timestamp);
+    java.sql.Date sqlDate = new java.sql.Date(timestamp);
+    java.sql.Time sqlTime = new java.sql.Time(timestamp);
+    java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(timestamp);
+    Calendar calendar = Calendar.getInstance();
+    GregorianCalendar gregorianCalendar = new GregorianCalendar();
+
+    // Date 除了 getTime() 方法可以获取时间戳毫秒值外，其他 get 方法在 jdk8 中均已过期，不推荐时间
+    // sql date/time/timestamp 均为 util date 的子类，过期方法类似
+    long s = date.getTime();
+    long sqlTimes = sqlDate.getTime();
+    long sqlTime1 = sqlTime.getTime();
+    long sqlTime2 = sqlTimestamp.getTime();
+    long sqlNano1 = sqlTimestamp.getNanos();
+    long sqlNano2 = sqlTimestamp.getNanos();
+
+    Date calendarTime = calendar.getTime();
+    int year = calendar.get(Calendar.YEAR);
+    // 由于月份是从0开始，一般 +1 之后才和人的主观感受一直
+    int month = calendar.get(Calendar.MONTH) + 1;
+    int dateNum = calendar.get(Calendar.DATE);
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    int minute = calendar.get(Calendar.MINUTE);
+    int second = calendar.get(Calendar.SECOND);
+    // 星期
+    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+    // 日期
+    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+    boolean isLeapYear = gregorianCalendar.isLeapYear(year);
+```
+
+### java 8 日期/时间操作
+
+JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很容易理解，以下距离没有列举所有情况，但其他操作基本类似。
+
+#### 对象构造
+
+对象的创建基本都是 now (当前时间)、of (静态构造方法)、parse (文本解析)、at (维度组合)、to (对象转换)、between (区间) 等简单明了的 API。
+
+示例代码： [Jdk8TimeExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/Jdk8TimeExample.java)
+
+```
+    LocalTime time = LocalTime.now();
+    LocalTime time1 = LocalTime.of(13, 14, 15);
+    LocalTime time2 = LocalTime.ofSecondOfDay(47655);
+    LocalTime time3 = LocalTime.parse("13:14:15");
+
+    LocalDate date = LocalDate.now();
+    LocalDate date1 = LocalDate.of(2019, 5, 10);
+    LocalDate date2 = LocalDate.ofYearDay(2019, 130);
+    LocalDate date3 = LocalDate.parse("2019-05-10");
+
+    LocalDateTime dateTime = LocalDateTime.now();
+    LocalDateTime dateTime1 = LocalDateTime.of(2019, 5, 10, 13, 14, 15);
+    LocalDateTime dateTime2 = LocalDateTime.of(date, time);
+    LocalDateTime dateTime3 = date.atStartOfDay();
+    LocalDateTime dateTime4 = date.atTime(time);
+    LocalDateTime dateTime5 = date.atTime(13, 14, 15);
+    LocalDateTime dateTime6 = time.atDate(date);
+
+    ZonedDateTime zonedDateTime = ZonedDateTime.now();
+    ZonedDateTime zonedDateTime1 = dateTime.atZone(ZoneId.systemDefault());
+    ZonedDateTime zonedDateTime2 = dateTime.atZone(ZoneId.of("Asia/Shanghai"));
+
+    LocalDateTime dateTime7 = zonedDateTime.toLocalDateTime();
+    LocalDate date4 = zonedDateTime.toLocalDate();
+    LocalTime time4 = zonedDateTime.toLocalTime();
+
+    Instant instant = dateTime.toInstant(ZoneOffset.of("+08:00"));
+    Instant instant1 = zonedDateTime.toInstant();
+    Instant instant2 = new Date().toInstant();
+
+    Duration duration = Duration.between(time, time1);
+    Period period = Period.between(date, date1);
+
+```
+
+#### 对象取值和比较
+
+对象的 get 方法可以获取对象结构的组成部分，is方法可以用做时间的简单判断。
+
+示例代码： [Jdk8TimeExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/Jdk8TimeExample.java)
+
+```
+    ZonedDateTime zonedDateTime = ZonedDateTime.now();
+    LocalDateTime dateTime = zonedDateTime.toLocalDateTime();
+    LocalDate date = dateTime.toLocalDate();
+    LocalTime time = dateTime.toLocalTime();
+
+    int year = date.getYear();
+    Month month = date.getMonth();
+    int monthValue = date.getMonthValue();
+    int dayOfYear = date.getDayOfYear();
+    int dayOfMonth = date.getDayOfMonth();
+    DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+    int hour = time.getHour();
+    int minute = time.getMinute();
+    int second = time.getSecond();
+    int nano = time.getNano();
+
+    ZoneId zone = zonedDateTime.getZone();
+    ZoneOffset offset = zonedDateTime.getOffset();
+
+    LocalDateTime now = LocalDateTime.now();
+
+    System.out.println(String.format("dateTime is before now: %s", dateTime.isBefore(now)));
+    System.out.println(String.format("dateTime is before now: %s", dateTime.isAfter(now)));
+    System.out.println(String.format("date is leap year(闰年): %s", dateTime.toLocalDate().isLeapYear()));
+```
+
+### 类型转换
+
+#### 
