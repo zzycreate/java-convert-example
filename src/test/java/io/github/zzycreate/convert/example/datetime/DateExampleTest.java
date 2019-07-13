@@ -77,6 +77,7 @@ public class DateExampleTest {
     @Test
     public void testToTimestamp() {
         Assert.assertEquals(DEFAULT_INSTANT_TIMESTAMP_LONG, DateExample.toTimestamp(DEFAULT_DATE));
+        Assert.assertEquals(DEFAULT_INSTANT_TIMESTAMP_LONG, DateExample.toTimestampWithInstant(DEFAULT_DATE));
 
         Assert.assertEquals(DEFAULT_INSTANT_TIMESTAMP.getTime(), DateExample.toSqlTimstamp(DEFAULT_DATE).getTime());
     }

@@ -683,6 +683,8 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
 
 ### 类型转换
 
+> 以下为 jdk 1.1 时间日期与 jdk1.8 时间日期的转换
+
 #### Date -> Instant
 
 示例代码： [DateLocalDateTimeConvertExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateLocalDateTimeConvertExample.java)
@@ -718,11 +720,13 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
     Date date = new Date(LocalDateTime.now().toInstant(ZoneOffset.of("+08:00")).toEpochMilli());
 ```
 
+> 以下为字符串与时间日期的转换
+
 #### String -> Date
 
-使用 `SimpleDateFormat` 按照格式解析字符串，可能会出现异常，格式见前文表格。
-
 示例代码： [DateTimeStringExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateTimeStringExample.java)
+
+使用 `SimpleDateFormat` 按照格式解析字符串，可能会出现异常，格式见前文表格。
 
 ```
     try {
@@ -731,22 +735,6 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
     } catch (ParseException e) {
         e.printStackTrace();
     }
-```
-
-#### String -> Date
-
-使用 `SimpleDateFormat` 按照格式解析字符串，可能会出现异常，格式见前文表格。
-
-示例代码： [DateTimeStringExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateTimeStringExample.java)
-
-```
-    try {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = sdf.parse("2019-01-02 15:23:46");
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-    
 ```
 
 或者间接利用 LocalDateTime 进行字符串解析
@@ -764,4 +752,53 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
 ```
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime dateTime = DateTimeStringExample.toLocalDateTime("2019-05-10 13:14:15", dateTimeFormatter);
+```
+
+#### Date -> String
+
+示例代码： [DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateExample.java)
+
+利用 `SimpleDateFormat` 进行时间的格式化：
+
+```
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String str = sdf.format(new Date);
+```
+
+利用 `DateTimeFormatter` 进行时间的格式化：
+
+```
+    ZonedDateTime zonedDateTime = date.toInstant().atZone(ZoneId.systemDefault());
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String str = zonedDateTime.format(dateTimeFormatter);
+```
+
+#### Instant -> String
+
+示例代码： [DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateExample.java)
+
+```
+    ZonedDateTime zonedDateTime = Instant.now().atZone(ZoneId.systemDefault());
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String str = zonedDateTime.format(dateTimeFormatter);
+```
+
+#### Date/Instant -> epochMilli
+
+示例代码： [DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateExample.java)
+
+```
+    long epochMilli = new Date().getTime();
+    long epochMilli1 = Instant.now().toEpochMilli();
+    long epochMilli2 = new Date().toInstant().toEpochMilli();
+```
+
+#### epochMilli -> Date/Instant
+
+示例代码： [DateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateExample.java)
+
+```
+    long epochMilli = System.currentTimeMillis();
+    Date date = new Date(epochMilli);
+    Instant instant = Instant.ofEpochMilli(epochMilli);
 ```

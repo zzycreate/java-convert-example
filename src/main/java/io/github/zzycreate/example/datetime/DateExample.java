@@ -76,6 +76,16 @@ public class DateExample {
     }
 
     /**
+     * java.util.Date -> Instant -> long
+     *
+     * @param date jdk1.1 Date
+     * @return 时间戳毫秒数
+     */
+    public static long toTimestampWithInstant(Date date) {
+        return date.toInstant().toEpochMilli();
+    }
+
+    /**
      * java.util.Date -> java.sql.Timestamp
      *
      * @param date jdk1.1 Date
