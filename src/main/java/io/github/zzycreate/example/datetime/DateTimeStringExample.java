@@ -9,6 +9,10 @@ import java.util.Date;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_ZONE_OFFSET;
 
 /**
+ * 日期字符串转换
+ * 1. 转 Date
+ * 2. 转 LocalDateTime
+ *
  * @author zzycreate
  * @date 2019/5/10
  */
@@ -29,6 +33,17 @@ public class DateTimeStringExample {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 字符串转 LocalDateTime
+     *
+     * @param str               字符串
+     * @param dateTimeFormatter 格式
+     * @return LocalDateTime
+     */
+    public static LocalDateTime toLocalDateTime(String str, DateTimeFormatter dateTimeFormatter) {
+        return LocalDateTime.parse(str, dateTimeFormatter);
     }
 
     /**

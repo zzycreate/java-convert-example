@@ -4,10 +4,12 @@ import io.github.zzycreate.example.datetime.DateTimeStringExample;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
+import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_LOCAL_DATE_TIME;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_TIMESTAMP_LONG;
 import static io.github.zzycreate.example.constant.DateTimeConstant.DEFAULT_USER_DATE_TIME;
 import static io.github.zzycreate.example.constant.DateTimeConstant.USER_PATTERN;
@@ -24,6 +26,13 @@ public class DateTimeStringExampleTest {
         Assert.assertEquals(Long.valueOf(DEFAULT_TIMESTAMP_LONG),
                 Optional.ofNullable(date).map(Date::getTime).orElse(0L));
 
+    }
+
+    @Test
+    public void testToLocalDateTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(USER_PATTERN);
+        LocalDateTime dateTime = DateTimeStringExample.toLocalDateTime(DEFAULT_USER_DATE_TIME, dateTimeFormatter);
+        Assert.assertEquals(DEFAULT_LOCAL_DATE_TIME, dateTime);
     }
 
     @Test

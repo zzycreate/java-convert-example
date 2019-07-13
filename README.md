@@ -712,6 +712,56 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
 
 #### LocalDateTime -> Date
 
+示例代码： [DateLocalDateTimeConvertExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateLocalDateTimeConvertExample.java)
+
 ```
     Date date = new Date(LocalDateTime.now().toInstant(ZoneOffset.of("+08:00")).toEpochMilli());
+```
+
+#### String -> Date
+
+使用 `SimpleDateFormat` 按照格式解析字符串，可能会出现异常，格式见前文表格。
+
+示例代码： [DateTimeStringExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateTimeStringExample.java)
+
+```
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = sdf.parse("2019-01-02 15:23:46");
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+```
+
+#### String -> Date
+
+使用 `SimpleDateFormat` 按照格式解析字符串，可能会出现异常，格式见前文表格。
+
+示例代码： [DateTimeStringExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateTimeStringExample.java)
+
+```
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = sdf.parse("2019-01-02 15:23:46");
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+    
+```
+
+或者间接利用 LocalDateTime 进行字符串解析
+
+```
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime localDateTime = LocalDateTime.parse("2019-05-10 13:14:15", dateTimeFormatter);
+    Date date = Date.from(localDateTime.toInstant(ZoneOffset.of("+08:00")));
+```
+
+#### String -> LocalDateTime
+
+示例代码： [DateTimeStringExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateTimeStringExample.java)
+
+```
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime dateTime = DateTimeStringExample.toLocalDateTime("2019-05-10 13:14:15", dateTimeFormatter);
 ```
