@@ -683,4 +683,35 @@ JSR 303 的日期时间对象虽然多，但是操作的 API 基本类似，很�
 
 ### 类型转换
 
-#### 
+#### Date -> Instant
+
+示例代码： [DateLocalDateTimeConvertExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateLocalDateTimeConvertExample.java)
+
+```
+    Instant instant = new Date().toInstant();
+    Instant instant1 = Instant.ofEpochMilli(new Date().getTime())
+```
+
+#### Date -> LocalDateTime/LocalDate/LocalTime
+
+示例代码： [DateLocalDateTimeConvertExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateLocalDateTimeConvertExample.java)
+
+```
+    LocalDateTime localDateTime = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
+    LocalDate localDate = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).toLocalDate();
+    LocalTime localTime = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).toLocalTime();
+```
+
+#### Instant -> Date
+
+示例代码： [DateLocalDateTimeConvertExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/datetime/DateLocalDateTimeConvertExample.java)
+
+```
+    Date date = new Date(Instant.now().toEpochMilli());
+```
+
+#### LocalDateTime -> Date
+
+```
+    Date date = new Date(LocalDateTime.now().toInstant(ZoneOffset.of("+08:00")).toEpochMilli());
+```

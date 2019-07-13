@@ -2,7 +2,9 @@ package io.github.zzycreate.example.constant;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -43,6 +45,14 @@ public interface DateTimeConstant {
      */
     LocalDateTime DEFAULT_LOCAL_DATE_TIME = LocalDateTime.of(DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DAY, DEFAULT_HOUR,
             DEFAULT_MINUTE, DEFAULT_SECOND);
+    /**
+     * 默认示例的 LocalDate
+     */
+    LocalDate DEFAULT_LOCAL_DATE = LocalDate.of(DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DAY);
+    /**
+     * 默认示例的 LocalTime
+     */
+    LocalTime DEFAULT_LOCAL_TIME = LocalTime.of(DEFAULT_HOUR, DEFAULT_MINUTE, DEFAULT_SECOND);
     /**
      * 默认时区：东八区
      */
