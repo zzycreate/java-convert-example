@@ -816,7 +816,7 @@ Stream 就如同一个迭代器（Iterator），单向，不可往复，数据�
 
 ### 流的基本构成
 
-Stream 流的使用基本分为三个三种操作：生成 Stream 流数据源、Stream 流中值操作、Stream 流结束操作。
+Stream 流的使用基本分为三种操作：生成 Stream 流数据源、Stream 流中值操作、Stream 流结束操作。另外还有 short-circuiting 操作作为补充。
 
 #### Stream 流的生成
 
@@ -833,10 +833,20 @@ Stream 流的使用基本分为三个三种操作：生成 Stream 流数据源�
 一个流可以后面跟随零个或多个 intermediate 操作。其目的主要是打开流，做出某种程度的数据映射/过滤，然后返回一个新的流，交给下一个操作使用。
 这类操作都是惰性化的（lazy），就是说，仅仅调用到这类方法，并没有真正开始流的遍历。只有在 Terminal 操作执行时才会真正的执行这些 Intermediate 操作。
 
+常用的 Intermediate 操作有：map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered
+
 #### Stream 流的执行操作(Terminal)
 
 一个流只能有一个 terminal 操作，当这个操作执行后，流就被使用“光”了，无法再被操作。所以这必定是流的最后一个操作。
 Terminal 操作的执行，才会真正开始流的遍历，并且会生成一个结果，或者一个 side effect。
+
+常用的 Terminal 操作有：forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator
+
+#### Short-circuiting
+
+当操作一个无限大的 Stream，而又希望在有限时间内完成操作，则在管道内拥有一个 short-circuiting 操作是必要非充分条件。
+
+常用的 Short-circuiting 操作有：anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit
 
 ### 生成 Stream 流数据源
 
@@ -880,9 +890,100 @@ IO 流可以包装成 BufferedReader 转换为 Stream
 
 ### Stream 流的 Intermediate 操作
 
+#### map
 
+map 的作用就是把 input Stream 的每一个元素，映射成 output Stream 的另外一个元素。
+
+```
+    // 转大写
+    List<String> stringList = list.stream()
+            .map(String::toUpperCase)
+            .collect(Collectors.toList());
+
+    // 数据计算
+    List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9).stream()
+            .map(n -> n * n)
+            .collect(Collectors.toList());
+
+    // 获取对象属性
+    List<String> list = list.stream()
+            .map(Item::getDetail).map(ItemDetail::getValue)
+            .collect(Collectors.toList());
+```
+
+#### flatMap
+
+flatMap 把 input Stream 中的层级结构扁平化
+
+```
+    Stream<List<Integer>> inputStream = Stream.of(
+            Arrays.asList(1),
+            Arrays.asList(2, 3),
+            Arrays.asList(4, 5, 6)
+    );
+    // 将集合对象里面的数据拿出来转换为扁平结构
+    Stream<Integer> outputStream = inputStream.
+            flatMap((childList) -> childList.stream());
+```
+
+#### filter 
+
+filter 对原始 Stream 进行某项测试，**通过**测试的元素被留下来生成一个新 Stream。
+
+```
+    Integer[] sixNums = {1, 2, 3, 4, 5, 6};
+    // 对2取模等于0的是偶数，filter留下数字中的偶数
+    Integer[] evens = Stream.of(sixNums)
+            .filter(n -> n % 2 == 0)
+            .toArray(Integer[]::new);
+```
+
+#### distinct
+
+distinct 是对元素进行去重，去重是利用了对象的 hashCode() 和 equals() 方法
+
+如果distinct（）正在处理有序流，那么对于重复元素，将保留以遭遇顺序首先出现的元素，并且以这种方式选择不同元素是稳定的。
+在无序流的情况下，不同元素的选择不一定是稳定的，是可以改变的。distinct（）执行有状态的中间操作。
+在有序流的并行流的情况下，保持distinct（）的稳定性是需要很高的代价的，因为它需要大量的缓冲开销。
+如果我们不需要保持遭遇顺序的一致性，那么我们应该可以使用通过BaseStream.unordered（）方法实现的无序流。
+
+```
+    Integer[] nums = {1, 1, 2, 3, 4, 5, 4, 5, 6};
+    Integer[] evens = Stream.of(nums)
+            .distinct()
+            .toArray(Integer[]::new);// [1, 2, 3, 4, 5, 6]
+```
+
+#### sorted
+#### peek
+#### limit
+#### skip
+#### parallel
+#### sequential
+#### unordered
 
 ### Stream 流的 Terminal 操作
 
 
 
+### Stream 流的 Short-circuiting 操作
+
+### 有效的特殊用法
+
+#### 1. 自定义去重
+
+利用 Map 的 key 不能重复的特性进行去重，实现下方静态方法，在需要的使用结合 filter 和 distinctByKey 方法进行去重。
+
+```
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        // putIfAbsent 如果map中有值，则返回原值，新值也不会放入map中，如果原来没有值，则返回null，本次put的值也会放入map中
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+```
+
+使用的时候只需要使用 filter 过滤掉重复项：
+
+```
+    items.stream().filter(distinctByKey(Item::getName)).collect(Collectors.toList());
+```
