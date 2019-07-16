@@ -890,6 +890,8 @@ IO 流可以包装成 BufferedReader 转换为 Stream
 
 ### Stream 流的 Intermediate 操作
 
+示例代码： [StreamIntermediateExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/StreamIntermediateExample.java)
+
 #### map
 
 map 的作用就是把 input Stream 的每一个元素，映射成 output Stream 的另外一个元素。
