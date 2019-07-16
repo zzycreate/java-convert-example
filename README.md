@@ -898,17 +898,17 @@ map 的作用就是把 input Stream 的每一个元素，映射成 output Stream
     // 转大写
     List<String> stringList = list.stream()
             .map(String::toUpperCase)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); // [ABC, EFG, HIJ]
 
     // 数据计算
     List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9).stream()
             .map(n -> n * n)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
 
     // 获取对象属性
     List<String> list = list.stream()
             .map(Item::getDetail).map(ItemDetail::getValue)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()); // [v1, v5, v3, v2, v4]
 ```
 
 #### flatMap
@@ -923,7 +923,7 @@ flatMap 把 input Stream 中的层级结构扁平化
     );
     // 将集合对象里面的数据拿出来转换为扁平结构
     Stream<Integer> outputStream = inputStream.
-            flatMap((childList) -> childList.stream());
+            flatMap((childList) -> childList.stream()); // [1, 2, 3, 4, 5, 6]
 ```
 
 #### filter 
@@ -935,7 +935,7 @@ filter 对原始 Stream 进行某项测试，**通过**测试的元素被留下�
     // 对2取模等于0的是偶数，filter留下数字中的偶数
     Integer[] evens = Stream.of(sixNums)
             .filter(n -> n % 2 == 0)
-            .toArray(Integer[]::new);
+            .toArray(Integer[]::new); // [2, 4, 6]
 ```
 
 #### distinct
@@ -955,6 +955,31 @@ distinct 是对元素进行去重，去重是利用了对象的 hashCode() 和 e
 ```
 
 #### sorted
+
+sorted 方法用于排序，利用 Comparator 类的静态方法可以快速构造一个比较器实现排序。
+
+```
+    List<Integer> list = Arrays.asList(5, 2, 4, 8, 6, 1, 9, 3, 7);
+    
+    // sorted() 无参方法为自然排序
+    List<Integer> sorted = list.stream().sorted().collect(Collectors.toList());// [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    
+    // 使用 Comparator.reverseOrder() 获得一个自然逆序比较器，用于逆序排序
+    List<Integer> reverse = list.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());// [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    
+    // 使用 Comparator.comparing() 获取一个自定义比较器，显现自定义对象的排序
+    List<Item> codeSorted = StreamIntermediateExample.newItems().stream()
+            .sorted(Comparator.comparing(Item::getCode))
+            .collect(Collectors.toList());
+    // [Item(name=Name1, code=1, number=1.1, detail=ItemDetail(id=101, value=v1)), Item(name=Name2, code=2, number=2.2, detail=ItemDetail(id=202, value=v2)), Item(name=Name3, code=3, number=3.3, detail=ItemDetail(id=303, value=v3)), Item(name=Name4, code=4, number=4.4, detail=ItemDetail(id=404, value=v4)), Item(name=Name5, code=5, number=5.5, detail=ItemDetail(id=505, value=v5))]
+    
+    List<Item> codeReverse = StreamIntermediateExample.newItems().stream()
+            .sorted(Comparator.comparing(Item::getCode).reversed())
+            .collect(Collectors.toList());
+    // [Item(name=Name5, code=5, number=5.5, detail=ItemDetail(id=505, value=v5)), Item(name=Name4, code=4, number=4.4, detail=ItemDetail(id=404, value=v4)), Item(name=Name3, code=3, number=3.3, detail=ItemDetail(id=303, value=v3)), Item(name=Name2, code=2, number=2.2, detail=ItemDetail(id=202, value=v2)), Item(name=Name1, code=1, number=1.1, detail=ItemDetail(id=101, value=v1))]
+        
+```
+
 #### peek
 #### limit
 #### skip
