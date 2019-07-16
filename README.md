@@ -981,6 +981,37 @@ sorted 方法用于排序，利用 Comparator 类的静态方法可以快速构�
 ```
 
 #### peek
+
+peek() 接受一个 Consumer 消费者方法，而 map() 接受一个 Function 方法; Consumer 方法返回值是 void，而 Function 方法有返回值，peek 和 map 方法的区别主要在于流处理过程中返回值的不同。
+peek() 方法是 Intermediate 方法，而 forEach() 方法是 Terminal 方法; 如果 peek 方法后没有 Terminal 方法，则 peek 并不会真正的执行，forEach 方法则会立即执行。
+forEach 和 peek 都是接受 Consumer 对象的，因此如果在 Stream 流处理的过程中做一些数据操作或者打印操作，选择 peek 方法，该方法还会返回 Stream 流，用于下一步处理; 如果已经是处理的最后一步，则选择 forEach 用于最终执行整个流。 
+
+```
+    // [Abc, efG, HiJ] -> [Abc, efG, HiJ]
+    List<String> peek = StreamIntermediateExample.newStringList().stream()
+            .peek(str -> {
+                if ("Abc".equals(str)) {
+                    str = str.toUpperCase();
+                }
+            }).collect(Collectors.toList());
+```
+   
+peek 方法对对象的修改，会影响到集合里面的元素，但如果集合中是 String 这种，则不会改变，
+因为修改后的 String 在常量池中是另一个对象，由于 Consumer 无法返回该对象，Stream 内的元素仍然指向原来的 String。
+对对象的修改则是改变堆中对象的数据，对象的引用并没有发生变化，Stream 中的元素任然指向原对象，只是对象内部已经发生了改变。
+            
+```            
+    // [Name1, Name5, Name3, Name2, Name4] -> [xxx, Name5, Name3, Name2, Name4]
+    List<String> peek1 = StreamIntermediateExample.newItems().stream()
+            .peek(item -> {
+                if (item.getCode() == 1) {
+                    item.setName("xxx");
+                }
+            })
+            .map(Item::getName)
+            .collect(Collectors.toList());
+```
+
 #### limit
 #### skip
 #### parallel

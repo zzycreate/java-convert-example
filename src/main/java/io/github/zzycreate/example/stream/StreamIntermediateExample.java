@@ -98,8 +98,33 @@ public class StreamIntermediateExample {
         // [Item(name=Name5, code=5, number=5.5, detail=ItemDetail(id=505, value=v5)), Item(name=Name4, code=4, number=4.4, detail=ItemDetail(id=404, value=v4)), Item(name=Name3, code=3, number=3.3, detail=ItemDetail(id=303, value=v3)), Item(name=Name2, code=2, number=2.2, detail=ItemDetail(id=202, value=v2)), Item(name=Name1, code=1, number=1.1, detail=ItemDetail(id=101, value=v1))]
     }
 
+    public void peek() {
+        //peek() 接受一个 Consumer 消费者方法，而 map() 接受一个 Function 方法; Consumer 方法返回值是 void，而 Function 方法有返回值，peek 和 map 方法的区别主要在于流处理过程中返回值的不同。
+        //peek() 方法是 Intermediate 方法，而 forEach() 方法是 Terminal 方法; 如果 peek 方法后没有 Terminal 方法，则 peek 并不会真正的执行，forEach 方法则会立即执行。
+        //forEach 和 peek 都是接受 Consumer 对象的，因此如果在 Stream 流处理的过程中做一些数据操作或者打印操作，选择 peek 方法，该方法还会返回 Stream 流，用于下一步处理; 如果已经是处理的最后一步，则选择 forEach 用于最终执行整个流。
+
+        // [Abc, efG, HiJ] -> [Abc, efG, HiJ]
+        List<String> peek = StreamIntermediateExample.newStringList().stream()
+                .peek(str -> {
+                    if ("Abc".equals(str)) {
+                        str = str.toUpperCase();
+                    }
+                }).collect(Collectors.toList());
+
+        // [Name1, Name5, Name3, Name2, Name4] -> [xxx, Name5, Name3, Name2, Name4]
+        List<String> peek1 = StreamIntermediateExample.newItems().stream()
+                .peek(item -> {
+                    if (item.getCode() == 1) {
+                        item.setName("xxx");
+                    }
+                })
+                .map(Item::getName)
+                .collect(Collectors.toList());
+    }
+
+
     public static void main(String[] args) {
-        new StreamIntermediateExample().sorted();
+        new StreamIntermediateExample().peek();
     }
 
 }
