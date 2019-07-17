@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -145,8 +148,92 @@ public class StreamIntermediateExample {
         List<Integer> skip8 = numbers.stream().skip(8).collect(Collectors.toList());// []
     }
 
-    public static void main(String[] args) {
-        new StreamIntermediateExample().skip();
+    public void parallel() throws InterruptedException {
+        System.out.println("Hello World!");
+        // 构造一个10000个元素的集合
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            list.add(i);
+        }
+        // 统计并行执行list的线程
+        Set<Thread> threadSet = new CopyOnWriteArraySet<>();
+        // 并行执行
+        list.stream().parallel().forEach(integer -> {
+            Thread thread = Thread.currentThread();
+            // System.out.println(thread);
+            // 统计并行执行list的线程
+            threadSet.add(thread);
+        });
+        System.out.println("threadSet一共有" + threadSet.size() + "个线程"); // 6
+        System.out.println("系统一个有" + Runtime.getRuntime().availableProcessors() + "个cpu"); // 8
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            list1.add(i);
+            list2.add(i);
+        }
+        Set<Thread> threadSetTwo = new CopyOnWriteArraySet<>();
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+        Thread threadA = new Thread(() -> {
+            list1.stream().parallel().forEach(integer -> {
+                Thread thread = Thread.currentThread();
+                // System.out.println("list1" + thread);
+                threadSetTwo.add(thread);
+            });
+            countDownLatch.countDown();
+        });
+        Thread threadB = new Thread(() -> {
+            list2.stream().parallel().forEach(integer -> {
+                Thread thread = Thread.currentThread();
+                // System.out.println("list2" + thread);
+                threadSetTwo.add(thread);
+            });
+            countDownLatch.countDown();
+        });
+
+        threadA.start();
+        threadB.start();
+        countDownLatch.await();
+        System.out.println("threadSetTwo一共有" + threadSetTwo.size() + "个线程"); // 9
+
+        System.out.println("---------------------------");
+        // [Thread[main,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-1,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-2,5,main]]
+        System.out.println(threadSet);
+        // [Thread[ForkJoinPool.commonPool-worker-6,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-7,5,main],
+        // Thread[Thread-0,5,],
+        // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+        // Thread[Thread-1,5,],
+        // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-2,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-1,5,main]]
+        System.out.println(threadSetTwo);
+        System.out.println("---------------------------");
+        threadSetTwo.addAll(threadSet);
+        // [Thread[ForkJoinPool.commonPool-worker-6,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-7,5,main],
+        // Thread[Thread-0,5,],
+        // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+        // Thread[Thread-1,5,],
+        // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-2,5,main],
+        // Thread[ForkJoinPool.commonPool-worker-1,5,main],
+        // Thread[main,5,main]]
+        // 执行forEach本身的线程也作为线程池中的一个工作线程
+        System.out.println(threadSetTwo);
+        System.out.println("threadSetTwo一共有" + threadSetTwo.size() + "个线程");
+        System.out.println("系统一个有" + Runtime.getRuntime().availableProcessors() + "个cpu");
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new StreamIntermediateExample().parallel();
     }
 
 }

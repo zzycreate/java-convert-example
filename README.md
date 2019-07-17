@@ -1049,8 +1049,127 @@ skip 方法会返回一个丢弃原Stream的前N个元素后剩下元素组成�
 ```
 
 #### parallel
+
+parallel stream是基于fork/join框架的,简单点说就是使用多线程来完成的,使用parallel stream时要考虑初始化fork/join框架的时间,
+如果要执行的任务很简单,那么初始化fork/join框架的时间会远多于执行任务所需时间,也就导致了效率的降低.
+根据附录doug Lee的说明,任务数量*执行方法的行数>=10000或者执行的是消耗大量时间操作(如io/数据库)才有必要使用
+
+Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处理那些没有被显式提交到任何线程池的任务。
+它是ForkJoinPool类型上的一个静态元素，它拥有的默认线程数量等于运行计算机上的处理器数量。
+当调用Arrays类上添加的新方法时，自动并行化就会发生。
+比如用来排序一个数组的并行快速排序，用来对一个数组中的元素进行并行遍历。自动并行化也被运用在Java 8新添加的Stream API中。
+
+并行流是 JDK8 对多线程的应用，但是难以控制，要想用好并行流，需要深入理解 ForkJoinPool 。
+以下的例子详阅：[深入浅出parallelStream](https://blog.csdn.net/u011001723/article/details/52794455)
+
+```
+    System.out.println("Hello World!");
+    // 构造一个10000个元素的集合
+    List<Integer> list = new ArrayList<>();
+    for (int i = 0; i < 10000; i++) {
+        list.add(i);
+    }
+    // 统计并行执行list的线程
+    Set<Thread> threadSet = new CopyOnWriteArraySet<>();
+    // 并行执行
+    list.stream().parallel().forEach(integer -> {
+        Thread thread = Thread.currentThread();
+        // System.out.println(thread);
+        // 统计并行执行list的线程
+        threadSet.add(thread);
+    });
+    System.out.println("threadSet一共有" + threadSet.size() + "个线程"); // 6
+    System.out.println("系统一个有" + Runtime.getRuntime().availableProcessors() + "个cpu"); // 8
+    List<Integer> list1 = new ArrayList<>();
+    List<Integer> list2 = new ArrayList<>();
+    for (int i = 0; i < 100000; i++) {
+        list1.add(i);
+        list2.add(i);
+    }
+    Set<Thread> threadSetTwo = new CopyOnWriteArraySet<>();
+    CountDownLatch countDownLatch = new CountDownLatch(2);
+    Thread threadA = new Thread(() -> {
+        list1.stream().parallel().forEach(integer -> {
+            Thread thread = Thread.currentThread();
+            // System.out.println("list1" + thread);
+            threadSetTwo.add(thread);
+        });
+        countDownLatch.countDown();
+    });
+    Thread threadB = new Thread(() -> {
+        list2.stream().parallel().forEach(integer -> {
+            Thread thread = Thread.currentThread();
+            // System.out.println("list2" + thread);
+            threadSetTwo.add(thread);
+        });
+        countDownLatch.countDown();
+    });
+
+    threadA.start();
+    threadB.start();
+    countDownLatch.await();
+    System.out.println("threadSetTwo一共有" + threadSetTwo.size() + "个线程"); // 9
+
+    System.out.println("---------------------------");
+    // [Thread[main,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-1,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-2,5,main]]
+    System.out.println(threadSet);
+    // [Thread[ForkJoinPool.commonPool-worker-6,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-7,5,main],
+    // Thread[Thread-0,5,],
+    // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+    // Thread[Thread-1,5,],
+    // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-2,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-1,5,main]]
+    System.out.println(threadSetTwo);
+    System.out.println("---------------------------");
+    threadSetTwo.addAll(threadSet);
+    // [Thread[ForkJoinPool.commonPool-worker-6,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-7,5,main],
+    // Thread[Thread-0,5,],
+    // Thread[ForkJoinPool.commonPool-worker-5,5,main],
+    // Thread[Thread-1,5,],
+    // Thread[ForkJoinPool.commonPool-worker-4,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-3,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-2,5,main],
+    // Thread[ForkJoinPool.commonPool-worker-1,5,main],
+    // Thread[main,5,main]]
+    // 执行forEach本身的线程也作为线程池中的一个工作线程
+    System.out.println(threadSetTwo);
+    System.out.println("threadSetTwo一共有" + threadSetTwo.size() + "个线程");
+    System.out.println("系统一个有" + Runtime.getRuntime().availableProcessors() + "个cpu");
+
+```
+
 #### sequential
+
+通过parallel()方法可以将串行流转换成并行流,sequential()方法将流转换成串行流。
+
+顺序流和并行流相对，这种使用的方法很少，暂时没有研究。
+
 #### unordered
+
+某些流的返回的元素是有确定顺序的，我们称之为 encounter order。这个顺序是流提供它的元素的顺序，比如数组的encounter order是它的元素的排序顺序，List是它的迭代顺序(iteration order)，对于HashSet,它本身就没有encounter order。
+
+一个流是否是encounter order主要依赖数据源和它的中间操作，比如数据源List和Array上创建的流是有序的(ordered)，但是在HashSet创建的流不是有序的。
+
+sorted()方法可以将流转换成encounter order的，unordered可以将流转换成encounter order的。
+
+注意，这个方法并不是对元素进行排序或者打散，而是返回一个是否encounter order的流。
+
+可以参见 stackoverflow 上的问题： [stream-ordered-unordered-problems](https://stackoverflow.com/questions/21350195/stream-ordered-unordered-problems)
+
+除此之外，一个操作可能会影响流的有序,比如map方法，它会用不同的值甚至类型替换流中的元素，所以输入元素的有序性已经变得没有意义了，但是对于filter方法来说，它只是丢弃掉一些值而已，输入元素的有序性还是保障的。
+
+对于串行流，流有序与否不会影响其性能，只是会影响确定性(determinism)，无序流在多次执行的时候结果可能是不一样的。
+
+对于并行流，去掉有序这个约束可能会提高性能，比如distinct、groupingBy这些聚合操作。
 
 ### Stream 流的 Terminal 操作
 
