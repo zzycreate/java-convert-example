@@ -122,9 +122,31 @@ public class StreamIntermediateExample {
                 .collect(Collectors.toList());
     }
 
+    public void limit() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+        // 截取指定元素位置以内的元素
+        List<Integer> limit2 = numbers.stream().limit(2).collect(Collectors.toList());// [1, 2]
+
+        List<Integer> limit6 = numbers.stream().limit(6).collect(Collectors.toList());// [1, 2, 3, 4, 5, 6]
+
+        List<Integer> limit8 = numbers.stream().limit(8).collect(Collectors.toList());// [1, 2, 3, 4, 5, 6]
+
+    }
+
+    public void skip() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+        // 忽略指定元素位置以内的元素
+        List<Integer> skip2 = numbers.stream().skip(2).collect(Collectors.toList());// [3, 4, 5, 6]
+
+        List<Integer> skip6 = numbers.stream().skip(6).collect(Collectors.toList());// []
+
+        List<Integer> skip8 = numbers.stream().skip(8).collect(Collectors.toList());// []
+    }
 
     public static void main(String[] args) {
-        new StreamIntermediateExample().peek();
+        new StreamIntermediateExample().skip();
     }
 
 }

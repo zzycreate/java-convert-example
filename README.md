@@ -1015,7 +1015,39 @@ peek 方法对对象的修改，会影响到集合里面的元素，但如果集
 ```
 
 #### limit
+
+limit 方法会对一个Stream进行截断操作，获取其前N个元素，如果原Stream中包含的元素个数小于N，那就获取其所有的元素；
+
+![stream-limit](./java-convert-example/stream-limit.jpg)
+
+```
+    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+    // 截取指定元素位置以内的元素
+    List<Integer> limit2 = numbers.stream().limit(2).collect(Collectors.toList());// [1, 2]
+
+    List<Integer> limit6 = numbers.stream().limit(6).collect(Collectors.toList());// [1, 2, 3, 4, 5, 6]
+
+    List<Integer> limit8 = numbers.stream().limit(8).collect(Collectors.toList());// [1, 2, 3, 4, 5, 6]
+```
+
 #### skip
+
+skip 方法会返回一个丢弃原Stream的前N个元素后剩下元素组成的新Stream，如果原Stream中包含的元素个数小于N，那么返回空Stream；
+
+![stream-limit](./java-convert-example/stream-limit.jpg)
+
+```
+    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+    // 忽略指定元素位置以内的元素
+    List<Integer> skip2 = numbers.stream().skip(2).collect(Collectors.toList());// [3, 4, 5, 6]
+
+    List<Integer> skip6 = numbers.stream().skip(6).collect(Collectors.toList());// []
+
+    List<Integer> skip8 = numbers.stream().skip(8).collect(Collectors.toList());// []
+```
+
 #### parallel
 #### sequential
 #### unordered
