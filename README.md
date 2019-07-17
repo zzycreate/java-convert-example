@@ -825,17 +825,20 @@ Stream 流的使用基本分为三种操作：生成 Stream 流数据源、Strea
 1. 从集合中获取：集合对象（List、Set、Queue等）的 stream()、parallelStream() 方法可以直接获取 Stream 对象
 2. 从数组中获取：数据对象可以利用 Arrays.stream(T[] array) 或者 Stream.of() 的工具方法获取 Stream 对象
 3. 从IO流中获取：BufferedReader 提供了 lines() 方法可以逐行获取IO流里面的数据
-4. 静态工厂方法：IntStream.range()、Files.walk() 等静态工厂方法可以提供 Stream 对象
-4. 其他诸如 Random.ints()、BitSet.stream()、Pattern.splitAsStream(java.lang.CharSequence)、JarFile.stream() 等方法
+4. 静态工厂方法：Stream.of(Object[])、IntStream.range(int, int)、Stream.iterate(Object, UnaryOperator) 等静态工厂方法可以提供 Stream 对象
+5. Files类的操作路径的方法：如list、find、walk等。
+6. 随机数流：Random.ints()
+7. 其他诸如 Random.ints()、BitSet.stream()、Pattern.splitAsStream(java.lang.CharSequence)、JarFile.stream() 等方法
+8. 更底层的使用StreamSupport，它提供了将Spliterator转换成流的方法。
 
-#### Stream 流的转换操作(Intermediate)
+#### Stream 流的中间操作(Intermediate)
 
 一个流可以后面跟随零个或多个 intermediate 操作。其目的主要是打开流，做出某种程度的数据映射/过滤，然后返回一个新的流，交给下一个操作使用。
 这类操作都是惰性化的（lazy），就是说，仅仅调用到这类方法，并没有真正开始流的遍历。只有在 Terminal 操作执行时才会真正的执行这些 Intermediate 操作。
 
 常用的 Intermediate 操作有：map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered
 
-#### Stream 流的执行操作(Terminal)
+#### Stream 流的终点操作(Terminal)
 
 一个流只能有一个 terminal 操作，当这个操作执行后，流就被使用“光”了，无法再被操作。所以这必定是流的最后一个操作。
 Terminal 操作的执行，才会真正开始流的遍历，并且会生成一个结果，或者一个 side effect。
@@ -981,6 +984,24 @@ sorted 方法用于排序，利用 Comparator 类的静态方法可以快速构�
     // [Item(name=Name5, code=5, number=5.5, detail=ItemDetail(id=505, value=v5)), Item(name=Name4, code=4, number=4.4, detail=ItemDetail(id=404, value=v4)), Item(name=Name3, code=3, number=3.3, detail=ItemDetail(id=303, value=v3)), Item(name=Name2, code=2, number=2.2, detail=ItemDetail(id=202, value=v2)), Item(name=Name1, code=1, number=1.1, detail=ItemDetail(id=101, value=v1))]
         
 ```
+
+#### unordered
+
+某些流的返回的元素是有确定顺序的，我们称之为 encounter order。这个顺序是流提供它的元素的顺序，比如数组的encounter order是它的元素的排序顺序，List是它的迭代顺序(iteration order)，对于HashSet,它本身就没有encounter order。
+
+一个流是否是encounter order主要依赖数据源和它的中间操作，比如数据源List和Array上创建的流是有序的(ordered)，但是在HashSet创建的流不是有序的。
+
+sorted()方法可以将流转换成encounter order的，unordered可以将流转换成encounter order的。
+
+注意，这个方法并不是对元素进行排序或者打散，而是返回一个是否encounter order的流。
+
+可以参见 stackoverflow 上的问题： [stream-ordered-unordered-problems](https://stackoverflow.com/questions/21350195/stream-ordered-unordered-problems)
+
+除此之外，一个操作可能会影响流的有序,比如map方法，它会用不同的值甚至类型替换流中的元素，所以输入元素的有序性已经变得没有意义了，但是对于filter方法来说，它只是丢弃掉一些值而已，输入元素的有序性还是保障的。
+
+对于串行流，流有序与否不会影响其性能，只是会影响确定性(determinism)，无序流在多次执行的时候结果可能是不一样的。
+
+对于并行流，去掉有序这个约束可能会提高性能，比如distinct、groupingBy这些聚合操作。
 
 #### peek
 
@@ -1153,29 +1174,17 @@ Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处�
 
 顺序流和并行流相对，这种使用的方法很少，暂时没有研究。
 
-#### unordered
-
-某些流的返回的元素是有确定顺序的，我们称之为 encounter order。这个顺序是流提供它的元素的顺序，比如数组的encounter order是它的元素的排序顺序，List是它的迭代顺序(iteration order)，对于HashSet,它本身就没有encounter order。
-
-一个流是否是encounter order主要依赖数据源和它的中间操作，比如数据源List和Array上创建的流是有序的(ordered)，但是在HashSet创建的流不是有序的。
-
-sorted()方法可以将流转换成encounter order的，unordered可以将流转换成encounter order的。
-
-注意，这个方法并不是对元素进行排序或者打散，而是返回一个是否encounter order的流。
-
-可以参见 stackoverflow 上的问题： [stream-ordered-unordered-problems](https://stackoverflow.com/questions/21350195/stream-ordered-unordered-problems)
-
-除此之外，一个操作可能会影响流的有序,比如map方法，它会用不同的值甚至类型替换流中的元素，所以输入元素的有序性已经变得没有意义了，但是对于filter方法来说，它只是丢弃掉一些值而已，输入元素的有序性还是保障的。
-
-对于串行流，流有序与否不会影响其性能，只是会影响确定性(determinism)，无序流在多次执行的时候结果可能是不一样的。
-
-对于并行流，去掉有序这个约束可能会提高性能，比如distinct、groupingBy这些聚合操作。
-
 ### Stream 流的 Terminal 操作
 
-
-
-### Stream 流的 Short-circuiting 操作
+#### forEach/forEachOrdered
+#### toArray
+#### reduce
+#### collect
+#### min/max
+#### count
+#### anyMatch/allMatch/noneMatch
+#### findFirst/findAny
+#### iterator
 
 ### 有效的特殊用法
 
@@ -1196,3 +1205,8 @@ sorted()方法可以将流转换成encounter order的，unordered可以将流转
 ```
     items.stream().filter(distinctByKey(Item::getName)).collect(Collectors.toList());
 ```
+
+参考文章：
+[Java 8 中的 Streams API 详解](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html)
+[Java Stream 详解 ——鸟窝](https://colobu.com/2016/03/02/Java-Stream/#%E6%8E%92%E5%BA%8F_Ordering)
+[Java 8 Stream 教程](https://www.jianshu.com/p/0c07597d8311)
