@@ -1176,10 +1176,75 @@ Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处�
 
 ### Stream 流的 Terminal 操作
 
-#### forEach/forEachOrdered
-#### toArray
-#### reduce
 #### collect
+
+collect 方法是 Terminal 操作，可以将 Stream 流转换为集合，Collectors 中提供了一些便捷的生成 Collector 的方法，例如 `toList()` 用于生成 List 列表，`toSet()` 
+可以用于生成 Set 堆，`toMap()` 可以用于生成 Map, `toCollection()` 还可以生成各种各样自定义的集合结构。
+
+`Collectors.toMap()` 有三个重构方法，推荐至少使用三个参数的 toMap() 方法，`BinaryOperator<U> mergeFunction` 
+这个参数有利于解决，生成Map时的主键重复问题，避免因为源数据问题产生问题。
+
+```
+    List<String> list = Arrays.asList("apple", "orange", "banana", "pear");
+    List<String> collectList = list.stream().filter(s -> s.length() > 5).collect(Collectors.toList());//[orange, banana]
+    Set<String> collectSet = list.stream().filter(s -> s.length() > 5).collect(Collectors.toSet());// [orange, banana]
+    
+    Map<Integer, Item> collectMap1 = items.stream()
+            .collect(Collectors.toMap(Item::getCode, Function.identity()));
+    Map<Integer, Item> collectMap2 = StreamConstant.newItems().stream()
+            .collect(Collectors.toMap(Item::getCode, Function.identity(), (a, b) -> a));
+    
+    Stack<String> collect = items.stream()
+                .map(Item::getName)
+                .collect(Collectors.toCollection(Stack::new));
+```
+
+#### toArray
+
+`toArray()` 方法可以将流中的数据放入一个数组中。无参方法只能生成 `Object[]` 对象数组，单参方法可以指定生成的数组类型。
+
+```
+    List<String> list = Arrays.asList("apple", "orange", "banana", "pear");
+    Object[] objects = list.stream().filter(s -> s.length() > 5).toArray();
+    String[] strings = list.stream().filter(s -> s.length() > 5).toArray(String[]::new);
+```
+
+#### forEach/forEachOrdered
+
+forEach 方法接收一个 Lambda 表达式，然后在 Stream 的每一个元素上执行该表达式。
+
+一般认为，forEach 和常规 for 循环的差异不涉及到性能，它们仅仅是函数式风格与传统 Java 风格的差别。
+
+```
+    // Java 8
+    list.stream()
+            .filter(s -> s.length() > 5)
+            .forEach(System.out::println);
+    // Pre-Java 8
+    for (String s : list) {
+        if (s.length() > 5) {
+            System.out.println(s);
+        }
+    }
+```
+
+forEach 是 terminal 操作，因此它执行后，Stream 的元素就被“消费”掉了，你无法对一个 Stream 进行两次 terminal 运算。
+
+```
+    Stream<String> stream = list.stream().filter(s -> s.length() > 5);
+    stream.forEach(element -> System.out.println("1: "+element));// ok
+    stream.forEach(element -> System.out.println("2: "+element));// java.lang.IllegalStateException: stream has already been operated upon or closed
+```
+
+要想实现上述类似功能，可以使用 peek 方法，peek是中间方法，流还没有被消费掉。或者利用Supplier提供者，Supplier的get方法可以构造新的Stream。
+
+```
+    Supplier<Stream<String>> streamSupplier= () -> (list.stream().filter(s -> s.length() > 5));
+    streamSupplier.get().forEach(element -> System.out.println("1: "+element));
+    streamSupplier.get().forEach(element -> System.out.println("2: "+element));
+```
+
+#### reduce
 #### min/max
 #### count
 #### anyMatch/allMatch/noneMatch
