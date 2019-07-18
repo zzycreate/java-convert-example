@@ -4,12 +4,15 @@ import io.github.zzycreate.example.constant.StreamConstant;
 import io.github.zzycreate.example.model.Item;
 
 import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +35,28 @@ public class StreamTerminalExample {
         Stack<String> collect = StreamConstant.newItems().stream()
                 .map(Item::getName)
                 .collect(Collectors.toCollection(Stack::new));
+
+        Map<Integer, List<Item>> groupingByCollect = StreamConstant.newItems().stream()
+                .collect(Collectors.groupingBy(Item::getCode));
+
+        Double average = StreamConstant.newItems().stream()
+                .collect(Collectors.averagingInt(Item::getCode));
+
+        IntSummaryStatistics summaryStatistics = StreamConstant.newItems().stream()
+                .collect(Collectors.summarizingInt(Item::getCode));// IntSummaryStatistics{count=5, sum=15, min=1, average=3.000000, max=5}
+
+        String join = list.stream()
+                .collect(Collectors.joining(" and ", "The ", " are fruits"));// The apple and orange and banana and pear are fruits
+
+        Collector<Item, StringJoiner, String> personNameCollector =
+                Collector.of(
+                        () -> new StringJoiner(" | "),      // supplier
+                        (j, p) -> j.add(p.getName().toUpperCase()),  // accumulator
+                        (j1, j2) -> j1.merge(j2),                    // combiner
+                        StringJoiner::toString);                     // finisher
+        String names = StreamConstant.newItems().stream()
+                .collect(personNameCollector);
+        System.out.println(names);  // NAME1 | NAME5 | NAME3 | NAME2 | NAME4
 
     }
 

@@ -1178,25 +1178,78 @@ Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处�
 
 #### collect
 
-collect 方法是 Terminal 操作，可以将 Stream 流转换为集合，Collectors 中提供了一些便捷的生成 Collector 的方法，例如 `toList()` 用于生成 List 列表，`toSet()` 
-可以用于生成 Set 堆，`toMap()` 可以用于生成 Map, `toCollection()` 还可以生成各种各样自定义的集合结构。
-
-`Collectors.toMap()` 有三个重构方法，推荐至少使用三个参数的 toMap() 方法，`BinaryOperator<U> mergeFunction` 
-这个参数有利于解决，生成Map时的主键重复问题，避免因为源数据问题产生问题。
+collect 方法是 Terminal 操作，可以将 Stream 流转换为集合，Collectors 中提供了一些便捷的生成 Collector 的方法，
+例如 `toList()` 用于生成 List 列表，`toSet()` 可以用于生成 Set 堆，`toMap()` 可以用于生成 Map。
 
 ```
     List<String> list = Arrays.asList("apple", "orange", "banana", "pear");
     List<String> collectList = list.stream().filter(s -> s.length() > 5).collect(Collectors.toList());//[orange, banana]
     Set<String> collectSet = list.stream().filter(s -> s.length() > 5).collect(Collectors.toSet());// [orange, banana]
-    
+```
+
+`Collectors.toMap()` 有三个重构方法，推荐至少使用三个参数的 toMap() 方法，`BinaryOperator<U> mergeFunction` 
+这个参数有利于解决，生成Map时的主键重复问题，避免因为源数据问题产生问题。
+
+```
     Map<Integer, Item> collectMap1 = items.stream()
             .collect(Collectors.toMap(Item::getCode, Function.identity()));
     Map<Integer, Item> collectMap2 = StreamConstant.newItems().stream()
             .collect(Collectors.toMap(Item::getCode, Function.identity(), (a, b) -> a));
-    
+```
+
+`toCollection()` 可以用于生成各种各样自定义的集合结构。
+
+```
     Stack<String> collect = items.stream()
                 .map(Item::getName)
                 .collect(Collectors.toCollection(Stack::new));
+```
+
+Collector包含四种不同的操作：supplier（初始构造器）, accumulator（累加器）, combiner（组合器）， finisher（终结者）。
+
+简单分组：
+
+```
+    Map<Integer, List<Item>> groupingByCollect = StreamConstant.newItems().stream()
+            .collect(Collectors.groupingBy(Item::getCode));
+```
+
+平均值：
+
+```
+    Double average = StreamConstant.newItems().stream()
+            .collect(Collectors.averagingInt(Item::getCode));     
+```
+
+统计：
+
+```
+    IntSummaryStatistics summaryStatistics = StreamConstant.newItems().stream()
+            .collect(Collectors.summarizingInt(Item::getCode));// IntSummaryStatistics{count=5, sum=15, min=1, average=3.000000, max=5}
+```
+
+拼接(三个参数分别是：连接符、字符串前缀、字符串后缀)：
+
+```
+String join = list.stream()
+            .collect(Collectors.joining(" and ", "The ", " are fruits"));// The apple and orange and banana and pear are fruits
+
+```
+
+`Collector.of()` 方法可以创建了一个新的collector，我们必须给这个collector提供四种功能：supplier, accumulator, combiner,finisher.
+
+supplier 初始化构造分割符；accumulator 处理数据，并叠加数据；combiner 进行数据连接，finisher 生成最终数据。
+
+```
+    Collector<Item, StringJoiner, String> personNameCollector =
+            Collector.of(
+                    () -> new StringJoiner(" | "),               // supplier
+                    (j, p) -> j.add(p.getName().toUpperCase()),  // accumulator
+                    (j1, j2) -> j1.merge(j2),                    // combiner
+                    StringJoiner::toString);                     // finisher
+    String names = StreamConstant.newItems().stream()
+            .collect(personNameCollector);
+    System.out.println(names);  // NAME1 | NAME5 | NAME3 | NAME2 | NAME4
 ```
 
 #### toArray
