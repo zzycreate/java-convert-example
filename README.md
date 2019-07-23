@@ -1350,6 +1350,8 @@ count 是对满足条件的数据进行统计，计算次数。等价于 `return
 
 利用 Map 的 key 不能重复的特性进行去重，实现下方静态方法，在需要的使用结合 filter 和 distinctByKey 方法进行去重。
 
+示例代码： [StreamSpecialExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/StreamSpecialExample.java)
+
 ```
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Map<Object, Boolean> seen = new ConcurrentHashMap<>();
@@ -1360,8 +1362,29 @@ count 是对满足条件的数据进行统计，计算次数。等价于 `return
 
 使用的时候只需要使用 filter 过滤掉重复项：
 
+示例代码： [StreamSpecialExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/StreamSpecialExample.java)
+
 ```
     items.stream().filter(distinctByKey(Item::getName)).collect(Collectors.toList());
+```
+
+#### 2. 求和
+
+BigDecimal 对象求和:
+
+```
+    //计算 总金额
+    BigDecimal totalMoney = stream().map(Item::getDetail).map(ItemDetail::getMoney)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    System.err.println("totalMoney:" + totalMoney.setScale(2, RoundingMode.HALF_UP));  //totalMoney:166.50
+```
+
+基本类型求和：
+
+```
+    //计算 数量
+    double sum = stream().mapToDouble(Item::getNumber).sum();
+    System.err.println("sum:" + sum);  //sum:16.5
 ```
 
 参考文章：

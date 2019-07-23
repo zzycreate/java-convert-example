@@ -1,4 +1,4 @@
-package io.github.zzycreate.example.stream;
+package io.github.zzycreate.example.stream.tools;
 
 import io.github.zzycreate.example.model.Item;
 import io.github.zzycreate.example.model.ItemDetail;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author zzycreate
  * @date 2019/07/14
  */
-public class DistinctByKeyStreamExample {
+public class DistinctByKey {
 
     /**
      * 利用 Map 的 key 不能重复的特性进行去重
@@ -34,21 +34,6 @@ public class DistinctByKeyStreamExample {
     }
 
     public void example() {
-        List<Item> items = new ArrayList<>();
-        items.add(Item.builder().name("Name11").code(1).number(1.1)
-                .detail(ItemDetail.builder().id(101L).value("v1").build())
-                .build());
-        items.add(Item.builder().name("Name22").code(2).number(2.2)
-                .detail(ItemDetail.builder().id(202L).value("v2").build())
-                .build());
-        items.add(Item.builder().name("Name33").code(3).number(3.3)
-                .detail(ItemDetail.builder().id(303L).value("v3").build())
-                .build());
-        items.add(Item.builder().name("Name22").code(2).number(2.2)
-                .detail(ItemDetail.builder().id(202L).value("v2").build())
-                .build());
-
-        List<Item> distinct = items.stream().filter(distinctByKey(Item::getName)).collect(Collectors.toList());
     }
 
 }
