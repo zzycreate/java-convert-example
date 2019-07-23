@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 import java.util.StringJoiner;
@@ -99,6 +100,13 @@ public class StreamTerminalExample {
         /* 或者使用方法引用 */
         result = supplier.get().collect(ArrayList::new, List::add, List::addAll);
         System.out.println(result);// [3, 4]
+    }
+
+    public void minAndMaxAndCount() {
+        Supplier<Stream<Integer>> supplier = () -> (Stream.of(1, 2, 3, 4).filter(p -> p > 2));
+        Optional<Integer> min = supplier.get().min(Integer::compareTo);// Optional[3]
+        Optional<Integer> max = supplier.get().max(Integer::compareTo);// Optional[4]
+        long count = supplier.get().count();// 2
     }
 
     public static void main(String[] args) {

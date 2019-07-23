@@ -1327,8 +1327,19 @@ Stream 的 reduce 方法，返回单个的结果值，并且reduce操作每处�
     System.out.println(result);// [3, 4]
 ```
 
-#### min/max
-#### count
+#### min/max/count
+
+一般比较大小需要比较器 Comparator, min 和 max 返回值类型是 Optional。
+
+count 是对满足条件的数据进行统计，计算次数。等价于 `return mapToLong(e -> 1L).sum();`
+
+```
+    Supplier<Stream<Integer>> supplier = () -> (Stream.of(1, 2, 3, 4).filter(p -> p > 2));
+    Optional<Integer> min = supplier.get().min(Integer::compareTo);// Optional[3]
+    Optional<Integer> max = supplier.get().max(Integer::compareTo);// Optional[4]
+    long count = supplier.get().count();// 2
+```
+
 #### anyMatch/allMatch/noneMatch
 #### findFirst/findAny
 #### iterator
