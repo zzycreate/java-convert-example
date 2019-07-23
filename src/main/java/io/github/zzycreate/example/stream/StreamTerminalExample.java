@@ -3,6 +3,7 @@ package io.github.zzycreate.example.stream;
 import io.github.zzycreate.example.constant.StreamConstant;
 import io.github.zzycreate.example.model.Item;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
@@ -60,7 +61,7 @@ public class StreamTerminalExample {
 
     }
 
-    public void toArray(){
+    public void toArray() {
         List<String> list = Arrays.asList("apple", "orange", "banana", "pear");
         Object[] objects = list.stream().filter(s -> s.length() > 5).toArray();
         String[] strings = list.stream().filter(s -> s.length() > 5).toArray(String[]::new);
@@ -90,8 +91,18 @@ public class StreamTerminalExample {
 
     }
 
+    public void reduce() {
+        Supplier<Stream<Integer>> supplier = () -> (Stream.of(1, 2, 3, 4).filter(p -> p > 2));
+        List<Integer> result = supplier.get()
+                .collect(() -> new ArrayList<>(), (list, item) -> list.add(item), (one, two) -> one.addAll(two));
+        System.out.println(result);// [3, 4]
+        /* 或者使用方法引用 */
+        result = supplier.get().collect(ArrayList::new, List::add, List::addAll);
+        System.out.println(result);// [3, 4]
+    }
+
     public static void main(String[] args) {
-        new StreamTerminalExample().collect();
+        new StreamTerminalExample().reduce();
     }
 
 }

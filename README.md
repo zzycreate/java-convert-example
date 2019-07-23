@@ -1297,7 +1297,36 @@ forEach 是 terminal 操作，因此它执行后，Stream 的元素就被“消�
     streamSupplier.get().forEach(element -> System.out.println("2: "+element));
 ```
 
+forEachOrdered 是为了保证执行后数据的有序性。
+
 #### reduce
+
+Stream 的 reduce 方法，返回单个的结果值，并且reduce操作每处理一个元素总是创建一个新值。常用的方法有average、sum、min、max、count，都可以使用reduce方法实现。
+
+```
+<U> U reduce(U identity,BiFunction<U,? super T,U> accumulator,BinaryOperator<U> combiner)
+#第一个参数identity返回实例u，传递你要返回的U类型对象的初始化实例u, 用于提供一个循环计算的初始值
+
+#第二个参数累加器accumulator，可以使用二元ℷ表达式（即二元lambda表达式），声明你在u上累加你的数据来源t的逻辑
+#例如(u,t)->u.sum(t),此时lambda表达式的行参列表是返回实例u和遍历的集合元素t，函数体是在u上累加t
+#BinaryOperator 的函数方法为 apply(U u, T t), 第一个参数为上次函数计算的返回值，第二个参数为 Stream 中的元素，函数方法会将两个值计算apply，得到的值赋值给下次执行该方法的第一个参数
+
+#第三个参数组合器combiner，同样是二元ℷ表达式，(u,t)->u
+#lambda表达式行参列表同样是(u,t)，函数体返回的类型则要和第一个参数的类型保持一致
+```
+
+具体的一个示例：
+
+```
+    Supplier<Stream<Integer>> supplier = () -> (Stream.of(1, 2, 3, 4).filter(p -> p > 2));
+    List<Integer> result = supplier.get()
+            .collect(() -> new ArrayList<>(), (list, item) -> list.add(item), (one, two) -> one.addAll(two));
+    System.out.println(result);// [3, 4]
+    /* 或者使用方法引用 */
+    result = supplier.get().collect(ArrayList::new, List::add, List::addAll);
+    System.out.println(result);// [3, 4]
+```
+
 #### min/max
 #### count
 #### anyMatch/allMatch/noneMatch
