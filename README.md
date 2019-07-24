@@ -1358,6 +1358,16 @@ count 是对满足条件的数据进行统计，计算次数。等价于 `return
 ```
 
 #### findFirst/findAny
+
+findFirst 是一个 termimal 兼 short-circuiting 操作，它总是返回 Stream 的第一个元素，或者空。
+findAny 是搜索到任何一个符合条件的结果返回，因为流可能是并行的，因此顺序可能不是确定的。如果顺序是确定的，使用 findFirst 可以方便的获取第一个元素。
+
+```
+    Optional<String> first = StreamConstant.newStringList().stream().findFirst();// Optional[Abc]
+    String any = StreamConstant.newStringList().stream()
+            .filter(s -> s.length() > 5).findAny().orElse("ERROR");// ERROR
+```
+
 #### iterator
 
 ### 有效的特殊用法

@@ -119,10 +119,18 @@ public class StreamTerminalExample {
 
     }
 
+    public void find() {
+        Optional<String> first = StreamConstant.newStringList().stream().findFirst();// Optional[Abc]
+        String any = StreamConstant.newStringList().stream()
+                .filter(s -> s.length() > 5).findAny().orElse("ERROR");// ERROR
+
+        System.out.println(first);
+        System.out.println(any);
+    }
 
     public static void main(String[] args) {
 //        new StreamTerminalExample().reduce();
-        new StreamTerminalExample().match();
+        new StreamTerminalExample().find();
     }
 
 }
