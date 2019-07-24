@@ -109,8 +109,20 @@ public class StreamTerminalExample {
         long count = supplier.get().count();// 2
     }
 
+    public void match() {
+        boolean b1 = StreamConstant.newItems().stream().map(Item::getCode).anyMatch(i -> i > 3);// true
+        boolean b2 = StreamConstant.newItems().stream().map(Item::getCode).anyMatch(i -> i > 5);// false
+        boolean b3 = StreamConstant.newItems().stream().map(Item::getCode).allMatch(i -> i > 3);// false
+        boolean b4 = StreamConstant.newItems().stream().map(Item::getCode).allMatch(i -> i > 5);// false
+        boolean b5 = StreamConstant.newItems().stream().map(Item::getCode).noneMatch(i -> i > 3);// false
+        boolean b6 = StreamConstant.newItems().stream().map(Item::getCode).noneMatch(i -> i > 5);// true
+
+    }
+
+
     public static void main(String[] args) {
-        new StreamTerminalExample().reduce();
+//        new StreamTerminalExample().reduce();
+        new StreamTerminalExample().match();
     }
 
 }

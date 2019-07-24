@@ -1341,6 +1341,22 @@ count 是对满足条件的数据进行统计，计算次数。等价于 `return
 ```
 
 #### anyMatch/allMatch/noneMatch
+
+- allMatch：Stream 中全部元素符合传入的 predicate，返回 true
+- anyMatch：Stream 中只要有一个元素符合传入的 predicate，返回 true
+- noneMatch：Stream 中没有一个元素符合传入的 predicate，返回 true
+
+它们都不是要遍历全部元素才能返回结果。例如 allMatch 只要一个元素不满足条件，就 skip 剩下的所有元素，返回 false。对清单 13 中的 Person 类稍做修改，加入一个 age 属性和 getAge 方法。
+
+```
+    boolean b1 = StreamConstant.newItems().stream().map(Item::getCode).anyMatch(i -> i > 3);// true
+    boolean b2 = StreamConstant.newItems().stream().map(Item::getCode).anyMatch(i -> i > 5);// false
+    boolean b3 = StreamConstant.newItems().stream().map(Item::getCode).allMatch(i -> i > 3);// false
+    boolean b4 = StreamConstant.newItems().stream().map(Item::getCode).allMatch(i -> i > 5);// false
+    boolean b5 = StreamConstant.newItems().stream().map(Item::getCode).noneMatch(i -> i > 3);// false
+    boolean b6 = StreamConstant.newItems().stream().map(Item::getCode).noneMatch(i -> i > 5);// true
+```
+
 #### findFirst/findAny
 #### iterator
 
