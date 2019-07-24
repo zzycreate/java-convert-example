@@ -1368,8 +1368,6 @@ findAny 是搜索到任何一个符合条件的结果返回，因为流可能是
             .filter(s -> s.length() > 5).findAny().orElse("ERROR");// ERROR
 ```
 
-#### iterator
-
 ### 有效的特殊用法
 
 #### 1. 自定义去重
@@ -1414,6 +1412,6 @@ BigDecimal 对象求和:
 ```
 
 参考文章：
-[Java 8 中的 Streams API 详解](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html)
-[Java Stream 详解 ——鸟窝](https://colobu.com/2016/03/02/Java-Stream/#%E6%8E%92%E5%BA%8F_Ordering)
-[Java 8 Stream 教程](https://www.jianshu.com/p/0c07597d8311)
+1. [Java 8 中的 Streams API 详解](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html)
+2. [Java Stream 详解 ——鸟窝](https://colobu.com/2016/03/02/Java-Stream/#%E6%8E%92%E5%BA%8F_Ordering)
+3. [Java 8 Stream 教程](https://www.jianshu.com/p/0c07597d8311)
