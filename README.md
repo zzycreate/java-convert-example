@@ -1377,8 +1377,7 @@ findAny 是搜索到任何一个符合条件的结果返回，因为流可能是
 
 利用 Map 的 key 不能重复的特性进行去重，实现下方静态方法，在需要的使用结合 filter 和 distinctByKey 方法进行去重。
 
-示例代码： [DistinctByKey.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github
-/zzycreate/example/stream/tools/DistinctByKey.java)
+示例代码： [DistinctByKey.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/tools/DistinctByKey.java)
 
 ```
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
