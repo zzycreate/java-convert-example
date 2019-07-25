@@ -1176,6 +1176,9 @@ Java 8为ForkJoinPool添加了一个通用线程池，这个线程池用来处�
 
 ### Stream 流的 Terminal 操作
 
+示例代码： [StreamTerminalExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/StreamTerminalExample.java)
+
+
 #### collect
 
 collect 方法是 Terminal 操作，可以将 Stream 流转换为集合，Collectors 中提供了一些便捷的生成 Collector 的方法，
@@ -1374,7 +1377,8 @@ findAny 是搜索到任何一个符合条件的结果返回，因为流可能是
 
 利用 Map 的 key 不能重复的特性进行去重，实现下方静态方法，在需要的使用结合 filter 和 distinctByKey 方法进行去重。
 
-示例代码： [StreamSpecialExample.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github/zzycreate/example/stream/StreamSpecialExample.java)
+示例代码： [DistinctByKey.java](https://github.com/zzycreate/java-convert-example/blob/master/src/main/java/io/github
+/zzycreate/example/stream/tools/DistinctByKey.java)
 
 ```
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {

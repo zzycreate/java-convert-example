@@ -1,15 +1,9 @@
 package io.github.zzycreate.example.stream.tools;
 
-import io.github.zzycreate.example.model.Item;
-import io.github.zzycreate.example.model.ItemDetail;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * 由于 Stream 提供的方法中 distinct() 可以用于去重，但是只能靠重写 hashCode() 和 equals() 方法实现，而没有便捷的参数条件用于控制
